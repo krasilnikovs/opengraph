@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  app:
+    build: docker/php
+    container_name: opengraph_app
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "9002:9000"
+

@@ -1,0 +1,40 @@
+{
+    "name": "krasilnikovs/opengraph",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Krasilnikovs\\Opengraph\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Krasilnikovs\\Opengraph\\Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Mihails Krasilnikovs",
+            "email": "mihails@krasilnikovs.lv"
+        }
+    ],
+    "require": {
+        "php": "^8.4"
+    },
+    "require-dev": {
+        "bamarni/composer-bin-plugin": "^1.8",
+        "phpunit/phpunit": "^11.5"
+    },
+    "config": {
+        "allow-plugins": {
+            "bamarni/composer-bin-plugin": true
+        }
+    },
+    "scripts": {
+        "bin": "echo 'bin not installed'",
+        "post-install-cmd": [
+            "@composer bin php-cs-fixer install --ansi",
+            "@composer bin phpstan install --ansi"
+        ]
+    }
+}
