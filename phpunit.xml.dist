@@ -3,7 +3,9 @@
 <!-- https://phpunit.readthedocs.io/en/latest/configuration.html -->
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="./vendor/autoload.php"
          backupGlobals="false"
+         displayDetailsOnTestsThatTriggerWarnings="true"
          colors="true"
 >
     <php>
@@ -13,7 +15,13 @@
 
     <testsuites>
         <testsuite name="unit">
-            <directory>tests/unit</directory>
+            <directory>tests</directory>
         </testsuite>
     </testsuites>
+
+    <source>
+        <include>
+            <directory>src</directory>
+        </include>
+    </source>
 </phpunit>
