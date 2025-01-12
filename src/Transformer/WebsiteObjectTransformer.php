@@ -14,7 +14,7 @@ final readonly class WebsiteObjectTransformer implements ObjectTransformerInterf
 {
     public function supports(MetaExtractorInterface $extractor): bool
     {
-        return $extractor->type() === '' || $extractor->type() === TypeProperty::WEBSITE;
+        return $extractor->type() === TypeProperty::WEBSITE;
     }
 
     public function toObject(MetaExtractorInterface $extractor): AbstractObject

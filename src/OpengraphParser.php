@@ -5,6 +5,7 @@ namespace Krasilnikovs\Opengraph;
 use Krasilnikovs\Opengraph\Extractor\MetaExtractor;
 use Krasilnikovs\Opengraph\Object\AbstractObject;
 use Krasilnikovs\Opengraph\Transformer\ObjectTransformerInterface;
+use Krasilnikovs\Opengraph\Transformer\WebsiteObjectTransformer;
 
 final readonly class OpengraphParser
 {
@@ -19,6 +20,15 @@ final readonly class OpengraphParser
     {
         $extractor = MetaExtractor::fromString($content);
 
+        if (! $this->transformer->supports($extractor)) {
+            return $this->fallback()->toObject($extractor);
+        }
+
         return $this->transformer->toObject($extractor);
+    }
+
+    private function fallback(): ObjectTransformerInterface
+    {
+        return new WebsiteObjectTransformer();
     }
 }
