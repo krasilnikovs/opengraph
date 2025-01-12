@@ -18,11 +18,12 @@ classDiagram
     class OpengraphParser
     OpengraphParserInterface <|.. OpengraphParser : implements
 
+    note "title,type,url,at least one are required"
     class AbstractObject {
-        + title: string (required)
-        + type: Type (required)
-        + url: Url (required)
-        + images: List<Image> (required at least one)
+        + title: string
+        + type: Type
+        + url: Url
+        + images: List<Image>
         + description: string
         + locale: Locale
         + siteName: string
@@ -42,7 +43,7 @@ classDiagram
 
     class Locale {
         + value: string
-        + alternates
+        + alternates: List<string>
     }
 
     class Determiner {
