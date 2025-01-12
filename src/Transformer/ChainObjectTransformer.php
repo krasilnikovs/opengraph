@@ -2,7 +2,7 @@
 
 namespace Krasilnikovs\Opengraph\Transformer;
 
-use Krasilnikovs\Opengraph\Extractor\MetaExtractorInterface;
+use Krasilnikovs\Opengraph\Extractor\PropertyExtractorInterface;
 use Krasilnikovs\Opengraph\Object\AbstractObject;
 use LogicException;
 use function array_any;
@@ -24,7 +24,7 @@ final readonly class ChainObjectTransformer implements ObjectTransformerInterfac
     ]) {
         $this->transformers = $transformers;
     }
-    public function supports(MetaExtractorInterface $extractor): bool
+    public function supports(PropertyExtractorInterface $extractor): bool
     {
         return array_any(
             iterator_to_array($this->transformers),
@@ -32,7 +32,7 @@ final readonly class ChainObjectTransformer implements ObjectTransformerInterfac
         );
     }
 
-    public function toObject(MetaExtractorInterface $extractor): AbstractObject
+    public function toObject(PropertyExtractorInterface $extractor): AbstractObject
     {
         foreach ($this->transformers as $transformer) {
             if ($transformer->supports($extractor)) {
@@ -43,12 +43,12 @@ final readonly class ChainObjectTransformer implements ObjectTransformerInterfac
         $this->throwLogicException($extractor);
     }
 
-    private function throwLogicException(MetaExtractorInterface $extractor): never
+    private function throwLogicException(PropertyExtractorInterface $extractor): never
     {
         throw new LogicException(
             sprintf(
                 'No appropriate object transformer for type "%s"',
-                $extractor->type(),
+                $extractor->type()->value,
             ),
         );
     }

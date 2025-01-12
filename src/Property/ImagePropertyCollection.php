@@ -2,12 +2,14 @@
 
 namespace Krasilnikovs\Opengraph\Property;
 
+use ArrayAccess;
 use Iterator;
 
 /**
  * @template-implements Iterator<array-key, ImageProperty>
+ * @template-implements ArrayAccess<array-key, ImageProperty>
  */
-final class Images implements Iterator
+final class ImagePropertyCollection implements Iterator, ArrayAccess
 {
     /**
      * @var array<array-key, ImageProperty>
@@ -56,5 +58,25 @@ final class Images implements Iterator
     public function rewind(): void
     {
         $this->index = 0;
+    }
+
+    public function offsetExists(mixed $offset): bool
+    {
+        return isset($this->images[$offset]);
+    }
+
+    public function offsetGet(mixed $offset): ImageProperty
+    {
+        return $this->images[$offset];
+    }
+
+    public function offsetSet(mixed $offset, mixed $value): void
+    {
+        $this->images[$offset] = $value;
+    }
+
+    public function offsetUnset(mixed $offset): void
+    {
+        unset($this->images[$offset]);
     }
 }

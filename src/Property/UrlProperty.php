@@ -17,6 +17,11 @@ final readonly class UrlProperty extends AbstractProperty
         return new self($value);
     }
 
+    public static function empty(): self
+    {
+        return new self('');
+    }
+
     public static function getName(): string
     {
         return 'og:url';

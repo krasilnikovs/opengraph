@@ -9,14 +9,24 @@ use Krasilnikovs\Opengraph\Property\ImagePropertyCollection;
 use Krasilnikovs\Opengraph\Property\TitleProperty;
 use Krasilnikovs\Opengraph\Property\TypeProperty;
 use Krasilnikovs\Opengraph\Property\UrlProperty;
+use Krasilnikovs\Opengraph\Transformer\ChainObjectTransformer;
 use Krasilnikovs\Opengraph\Transformer\ObjectTransformerInterface;
-use Krasilnikovs\Opengraph\Transformer\WebsiteObjectTransformer;
-use PharIo\Manifest\Url;
+use LogicException;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(WebsiteObjectTransformer::class)]
-final class WebsiteObjectTransformerTest extends ObjectTransformerTestCase
+#[CoversClass(ChainObjectTransformer::class)]
+final class ChainObjectTransformerTest extends ObjectTransformerTestCase
 {
+    public function testShouldThrowLogicException(): void
+    {
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage('No appropriate object transformer for type "website"');
+
+        $transformer = new ChainObjectTransformer([]);
+
+        self::assertFalse($transformer->supports($this->getExtractor()));
+        $transformer->toObject($this->getExtractor());
+    }
     public static function getTypeProperty(): TypeProperty
     {
         return TypeProperty::website();
@@ -24,7 +34,7 @@ final class WebsiteObjectTransformerTest extends ObjectTransformerTestCase
 
     protected static function getTransformer(): ObjectTransformerInterface
     {
-        return new WebsiteObjectTransformer();
+        return new ChainObjectTransformer();
     }
 
     protected static function getObjectClass(): string

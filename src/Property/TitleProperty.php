@@ -16,6 +16,11 @@ final readonly class TitleProperty extends AbstractProperty
         return new self($value);
     }
 
+    public static function empty(): self
+    {
+        return new self('');
+    }
+
     public static function getName(): string
     {
         return 'og:title';

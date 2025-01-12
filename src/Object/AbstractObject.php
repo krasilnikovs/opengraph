@@ -2,7 +2,7 @@
 
 namespace Krasilnikovs\Opengraph\Object;
 
-use Krasilnikovs\Opengraph\Property\Images;
+use Krasilnikovs\Opengraph\Property\ImagePropertyCollection;
 use Krasilnikovs\Opengraph\Property\TitleProperty;
 use Krasilnikovs\Opengraph\Property\TypeProperty;
 use Krasilnikovs\Opengraph\Property\UrlProperty;
@@ -12,9 +12,9 @@ abstract readonly class AbstractObject
     public TypeProperty $type;
     public UrlProperty $url;
     public TitleProperty $title;
-    public Images $images;
+    public ImagePropertyCollection $images;
 
-    public function __construct(UrlProperty $url, TitleProperty $title, Images $images)
+    public function __construct(UrlProperty $url, TitleProperty $title, ImagePropertyCollection $images)
     {
         $this->type = $this->getType();
         $this->url  = $url;

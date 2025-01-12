@@ -18,7 +18,7 @@ final readonly class TypeProperty extends AbstractProperty
         return new self(self::WEBSITE);
     }
 
-    public static function custom(string $value): self
+    public static function fromString(string $value): self
     {
         return new self($value);
     }
@@ -26,5 +26,10 @@ final readonly class TypeProperty extends AbstractProperty
     public static function getName(): string
     {
         return 'og:type';
+    }
+
+    public function isWebsite(): bool
+    {
+        return $this->value === self::WEBSITE;
     }
 }

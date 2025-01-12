@@ -3,6 +3,7 @@
 namespace Krasilnikovs\Opengraph\Tests\Transformer;
 
 use Krasilnikovs\Opengraph\Extractor\MetaExtractorInterface;
+use Krasilnikovs\Opengraph\Extractor\PropertyExtractorInterface;
 use Krasilnikovs\Opengraph\Property\TypeProperty;
 use Krasilnikovs\Opengraph\Transformer\ObjectTransformerInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -20,10 +21,10 @@ abstract class ObjectTransformerTestCase extends TestCase
     #[DataProvider('supportsProvider')]
     final public function testSupports(TypeProperty $type, bool $expected): void
     {
-        $typeExtractor = self::createStub(MetaExtractorInterface::class);
+        $typeExtractor = self::createStub(PropertyExtractorInterface::class);
         $typeExtractor
             ->method('type')
-            ->willReturn($type->value)
+            ->willReturn($type)
         ;
 
         self::assertEquals($expected, $this->transformer->supports($typeExtractor));
@@ -58,7 +59,7 @@ abstract class ObjectTransformerTestCase extends TestCase
                 'expected' => true,
             ],
             'false-supports' => [
-                'type' => TypeProperty::custom(random_bytes(128)),
+                'type' => TypeProperty::fromString(random_bytes(128)),
                 'expected' => false,
             ],
         ];
@@ -71,5 +72,5 @@ abstract class ObjectTransformerTestCase extends TestCase
      * @return class-string
      */
     abstract protected static function getObjectClass(): string;
-    abstract protected static function getExtractor(): MetaExtractorInterface;
+    abstract protected static function getExtractor(): PropertyExtractorInterface;
 }
