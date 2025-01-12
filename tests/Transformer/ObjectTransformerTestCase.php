@@ -38,15 +38,6 @@ abstract class ObjectTransformerTestCase extends TestCase
         self::assertInstanceOf(static::getObjectClass(), $object);
     }
 
-    abstract public static function getTypeProperty(): TypeProperty;
-    abstract protected static function getTransformer(): ObjectTransformerInterface;
-
-    /**
-     * @return class-string
-     */
-    abstract protected static function getObjectClass(): string;
-    abstract protected static function getExtractor(): MetaExtractorInterface;
-
     /**
      * @return array{
      *     true-supports: array{
@@ -72,4 +63,13 @@ abstract class ObjectTransformerTestCase extends TestCase
             ],
         ];
     }
+
+    abstract public static function getTypeProperty(): TypeProperty;
+    abstract protected static function getTransformer(): ObjectTransformerInterface;
+
+    /**
+     * @return class-string
+     */
+    abstract protected static function getObjectClass(): string;
+    abstract protected static function getExtractor(): MetaExtractorInterface;
 }

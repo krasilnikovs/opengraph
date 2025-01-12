@@ -9,7 +9,6 @@ use Krasilnikovs\Opengraph\Property\UrlProperty;
 
 final readonly class WebsiteObject extends AbstractObject
 {
-
     public function __construct(UrlProperty $url, TitleProperty $title, Images $images)
     {
         parent::__construct($url, $title, $images);
