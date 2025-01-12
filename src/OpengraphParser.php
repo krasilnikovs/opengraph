@@ -2,8 +2,9 @@
 
 namespace Krasilnikovs\Opengraph;
 
-use Krasilnikovs\Opengraph\Builder\ObjectTransformerInterface;
 use Krasilnikovs\Opengraph\Extractor\MetaExtractor;
+use Krasilnikovs\Opengraph\Object\AbstractObject;
+use Krasilnikovs\Opengraph\Transformer\ObjectTransformerInterface;
 
 final readonly class OpengraphParser
 {

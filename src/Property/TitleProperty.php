@@ -2,7 +2,7 @@
 
 namespace Krasilnikovs\Opengraph\Property;
 
-final readonly class Title
+final readonly class TitleProperty extends AbstractProperty
 {
     public string $value;
 
@@ -11,8 +11,13 @@ final readonly class Title
         $this->value = $value;
     }
 
-    public static function fromString(string $value): Title
+    public static function fromString(string $value): TitleProperty
     {
         return new self($value);
+    }
+
+    public static function getName(): string
+    {
+        return 'og:title';
     }
 }

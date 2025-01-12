@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Krasilnikovs\Opengraph\Builder;
+namespace Krasilnikovs\Opengraph\Transformer;
 
-use Krasilnikovs\Opengraph\AbstractObject;
-use Krasilnikovs\Opengraph\Extractor\MetaExtractor;
+use Krasilnikovs\Opengraph\Extractor\MetaExtractorInterface;
+use Krasilnikovs\Opengraph\Object\AbstractObject;
 
 interface ObjectTransformerInterface
 {
-    public function supports(MetaExtractor $extractor): bool;
-    public function toObject(MetaExtractor $extractor): AbstractObject;
+    public function supports(MetaExtractorInterface $extractor): bool;
+    public function toObject(MetaExtractorInterface $extractor): AbstractObject;
 }

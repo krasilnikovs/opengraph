@@ -1,27 +1,27 @@
 <?php declare(strict_types=1);
 
-namespace Krasilnikovs\Opengraph\Builder;
+namespace Krasilnikovs\Opengraph\Transformer;
 
-use Krasilnikovs\Opengraph\AbstractObject;
-use Krasilnikovs\Opengraph\Extractor\MetaExtractor;
+use Krasilnikovs\Opengraph\Extractor\MetaExtractorInterface;
+use Krasilnikovs\Opengraph\Object\AbstractObject;
+use Krasilnikovs\Opengraph\Object\WebsiteObject;
 use Krasilnikovs\Opengraph\Property\Images;
-use Krasilnikovs\Opengraph\Property\Title;
-use Krasilnikovs\Opengraph\Property\Type;
-use Krasilnikovs\Opengraph\Property\Url;
-use Krasilnikovs\Opengraph\WebsiteObject;
+use Krasilnikovs\Opengraph\Property\TitleProperty;
+use Krasilnikovs\Opengraph\Property\TypeProperty;
+use Krasilnikovs\Opengraph\Property\UrlProperty;
 
 final readonly class WebsiteObjectTransformer implements ObjectTransformerInterface
 {
-    public function supports(MetaExtractor $extractor): bool
+    public function supports(MetaExtractorInterface $extractor): bool
     {
-        return $extractor->type() === Type::WEBSITE;
+        return $extractor->type() === TypeProperty::WEBSITE;
     }
 
-    public function toObject(MetaExtractor $extractor): AbstractObject
+    public function toObject(MetaExtractorInterface $extractor): AbstractObject
     {
-        $url = Url::fromString($extractor->url());
-        $title = Title::fromString($extractor->title());
-        $images = Images::fromIterable($extractor->images());
+        $url = UrlProperty::fromString($extractor->url());
+        $title = TitleProperty::fromString($extractor->title());
+        $images = Images::fromArray($extractor->images());
 
         return new WebsiteObject(
             url: $url,

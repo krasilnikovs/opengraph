@@ -2,7 +2,7 @@
 
 namespace Krasilnikovs\Opengraph\Property;
 
-final readonly class Type
+final readonly class TypeProperty extends AbstractProperty
 {
     public const string WEBSITE = 'website';
 
@@ -16,5 +16,15 @@ final readonly class Type
     public static function website(): self
     {
         return new self(self::WEBSITE);
+    }
+
+    public static function custom(string $value): self
+    {
+        return new self($value);
+    }
+
+    public static function getName(): string
+    {
+        return 'og:type';
     }
 }

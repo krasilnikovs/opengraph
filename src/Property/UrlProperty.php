@@ -7,7 +7,7 @@ use const FILTER_VALIDATE_URL;
 use function filter_var;
 use function sprintf;
 
-final readonly class Url
+final readonly class UrlProperty extends AbstractProperty
 {
     public string $value;
 
@@ -23,5 +23,10 @@ final readonly class Url
         }
 
         return new self($value);
+    }
+
+    public static function getName(): string
+    {
+        return 'og:url';
     }
 }
