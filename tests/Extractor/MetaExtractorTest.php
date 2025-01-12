@@ -3,8 +3,10 @@
 namespace Krasilnikovs\Opengraph\Tests\Extractor;
 
 use Krasilnikovs\Opengraph\Extractor\MetaExtractor;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
+#[CoversClass(MetaExtractor::class)]
 final class MetaExtractorTest extends TestCase
 {
     public function testExtract(): void
@@ -30,6 +32,6 @@ final class MetaExtractorTest extends TestCase
                 </head> 
                 <body></body> 
             </html>
-            HTML;
+        HTML;
     }
 }

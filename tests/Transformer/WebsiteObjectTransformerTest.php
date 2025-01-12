@@ -7,7 +7,9 @@ use Krasilnikovs\Opengraph\Object\WebsiteObject;
 use Krasilnikovs\Opengraph\Property\TypeProperty;
 use Krasilnikovs\Opengraph\Transformer\ObjectTransformerInterface;
 use Krasilnikovs\Opengraph\Transformer\WebsiteObjectTransformer;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(WebsiteObjectTransformer::class)]
 final class WebsiteObjectTransformerTest extends ObjectTransformerTestCase
 {
     public static function getTypeProperty(): TypeProperty
