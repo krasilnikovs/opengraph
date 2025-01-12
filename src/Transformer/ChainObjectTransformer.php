@@ -5,6 +5,9 @@ namespace Krasilnikovs\Opengraph\Transformer;
 use Krasilnikovs\Opengraph\Extractor\MetaExtractorInterface;
 use Krasilnikovs\Opengraph\Object\AbstractObject;
 use LogicException;
+use function array_any;
+use function iterator_to_array;
+use function sprintf;
 
 final readonly class ChainObjectTransformer implements ObjectTransformerInterface
 {
@@ -23,7 +26,10 @@ final readonly class ChainObjectTransformer implements ObjectTransformerInterfac
     }
     public function supports(MetaExtractorInterface $extractor): bool
     {
-        return array_any(iterator_to_array($this->transformers), fn($transformer) => $transformer->supports($extractor));
+        return array_any(
+            iterator_to_array($this->transformers),
+            static fn(ObjectTransformerInterface $transformer) => $transformer->supports($extractor)
+        );
     }
 
     public function toObject(MetaExtractorInterface $extractor): AbstractObject
