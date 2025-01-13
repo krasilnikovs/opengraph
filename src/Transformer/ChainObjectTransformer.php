@@ -3,7 +3,7 @@
 namespace Krasilnikovs\Opengraph\Transformer;
 
 use Krasilnikovs\Opengraph\Extractor\PropertyExtractorInterface;
-use Krasilnikovs\Opengraph\Object\AbstractObject;
+use Krasilnikovs\Opengraph\Object\AbstractBaseObject;
 use LogicException;
 use function array_any;
 use function iterator_to_array;
@@ -32,7 +32,7 @@ final readonly class ChainObjectTransformer implements ObjectTransformerInterfac
         );
     }
 
-    public function toObject(PropertyExtractorInterface $extractor): AbstractObject
+    public function toObject(PropertyExtractorInterface $extractor): AbstractBaseObject
     {
         foreach ($this->transformers as $transformer) {
             if ($transformer->supports($extractor)) {

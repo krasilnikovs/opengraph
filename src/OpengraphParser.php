@@ -2,24 +2,27 @@
 
 namespace Krasilnikovs\Opengraph;
 
-use Krasilnikovs\Opengraph\Extractor\MetaExtractor;
 use Krasilnikovs\Opengraph\Extractor\PropertyExtractor;
-use Krasilnikovs\Opengraph\Object\AbstractObject;
+use Krasilnikovs\Opengraph\Object\AbstractBaseObject;
+use Krasilnikovs\Opengraph\Transformer\ChainObjectTransformer;
 use Krasilnikovs\Opengraph\Transformer\ObjectTransformerInterface;
 use Krasilnikovs\Opengraph\Transformer\WebsiteObjectTransformer;
 
 final readonly class OpengraphParser
 {
     private ObjectTransformerInterface $transformer;
-    private WebsiteObjectTransformer $fallback;
+    private ObjectTransformerInterface $fallback;
 
-    public function __construct(ObjectTransformerInterface $transformer)
+    public function __construct(
+        ObjectTransformerInterface $transformer = new ChainObjectTransformer(),
+        ObjectTransformerInterface $fallback = new WebsiteObjectTransformer(),
+    )
     {
         $this->transformer = $transformer;
-        $this->fallback    = new WebsiteObjectTransformer();
+        $this->fallback    = $fallback;
     }
 
-    public function parse(string $content): AbstractObject
+    public function parse(string $content): AbstractBaseObject
     {
         $extractor = PropertyExtractor::fromString($content);
 

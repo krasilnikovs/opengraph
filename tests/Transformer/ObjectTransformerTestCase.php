@@ -2,7 +2,6 @@
 
 namespace Krasilnikovs\Opengraph\Tests\Transformer;
 
-use Krasilnikovs\Opengraph\Extractor\MetaExtractorInterface;
 use Krasilnikovs\Opengraph\Extractor\PropertyExtractorInterface;
 use Krasilnikovs\Opengraph\Property\TypeProperty;
 use Krasilnikovs\Opengraph\Transformer\ObjectTransformerInterface;

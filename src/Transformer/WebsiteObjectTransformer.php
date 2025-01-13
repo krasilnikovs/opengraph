@@ -3,7 +3,7 @@
 namespace Krasilnikovs\Opengraph\Transformer;
 
 use Krasilnikovs\Opengraph\Extractor\PropertyExtractorInterface;
-use Krasilnikovs\Opengraph\Object\AbstractObject;
+use Krasilnikovs\Opengraph\Object\AbstractBaseObject;
 use Krasilnikovs\Opengraph\Object\WebsiteObject;
 
 final readonly class WebsiteObjectTransformer implements ObjectTransformerInterface
@@ -13,7 +13,7 @@ final readonly class WebsiteObjectTransformer implements ObjectTransformerInterf
         return $extractor->type()->isWebsite();
     }
 
-    public function toObject(PropertyExtractorInterface $extractor): AbstractObject
+    public function toObject(PropertyExtractorInterface $extractor): AbstractBaseObject
     {
         return new WebsiteObject(
             url: $extractor->url(),

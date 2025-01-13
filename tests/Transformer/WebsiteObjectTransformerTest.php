@@ -2,7 +2,6 @@
 
 namespace Krasilnikovs\Opengraph\Tests\Transformer;
 
-use Krasilnikovs\Opengraph\Extractor\MetaExtractorInterface;
 use Krasilnikovs\Opengraph\Extractor\PropertyExtractorInterface;
 use Krasilnikovs\Opengraph\Object\WebsiteObject;
 use Krasilnikovs\Opengraph\Property\ImagePropertyCollection;
@@ -11,7 +10,6 @@ use Krasilnikovs\Opengraph\Property\TypeProperty;
 use Krasilnikovs\Opengraph\Property\UrlProperty;
 use Krasilnikovs\Opengraph\Transformer\ObjectTransformerInterface;
 use Krasilnikovs\Opengraph\Transformer\WebsiteObjectTransformer;
-use PharIo\Manifest\Url;
 use PHPUnit\Framework\Attributes\CoversClass;
 
 #[CoversClass(WebsiteObjectTransformer::class)]

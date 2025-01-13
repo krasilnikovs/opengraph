@@ -7,7 +7,7 @@ use Krasilnikovs\Opengraph\Property\TitleProperty;
 use Krasilnikovs\Opengraph\Property\TypeProperty;
 use Krasilnikovs\Opengraph\Property\UrlProperty;
 
-abstract readonly class AbstractObject
+abstract readonly class AbstractBaseObject
 {
     public TypeProperty $type;
     public UrlProperty $url;
