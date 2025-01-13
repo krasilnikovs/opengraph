@@ -2,11 +2,11 @@
 
 namespace Krasilnikovs\Opengraph\Extractor;
 
-use Krasilnikovs\Opengraph\Property\ImageProperty;
-use Krasilnikovs\Opengraph\Property\ImagePropertyCollection;
-use Krasilnikovs\Opengraph\Property\TitleProperty;
-use Krasilnikovs\Opengraph\Property\TypeProperty;
-use Krasilnikovs\Opengraph\Property\UrlProperty;
+use Krasilnikovs\Opengraph\Model\Property\ImagePropertyCollection;
+use Krasilnikovs\Opengraph\Model\Property\ImageUrlProperty;
+use Krasilnikovs\Opengraph\Model\Property\TitleProperty;
+use Krasilnikovs\Opengraph\Model\Property\TypeProperty;
+use Krasilnikovs\Opengraph\Model\Property\UrlProperty;
 
 interface PropertyExtractorInterface
 {
@@ -15,7 +15,7 @@ interface PropertyExtractorInterface
     public function title(): TitleProperty;
 
     /**
-     * @return ImagePropertyCollection<ImageProperty>
+     * @return ImagePropertyCollection<ImageUrlProperty>
      */
     public function images(): ImagePropertyCollection;
 }

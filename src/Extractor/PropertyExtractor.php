@@ -4,13 +4,12 @@ namespace Krasilnikovs\Opengraph\Extractor;
 
 use Dom\Element;
 use Dom\HTMLDocument;
-use Krasilnikovs\Opengraph\Property\ImageProperty;
-use Krasilnikovs\Opengraph\Property\ImagePropertyCollection;
-use Krasilnikovs\Opengraph\Property\TitleProperty;
-use Krasilnikovs\Opengraph\Property\TypeProperty;
-use Krasilnikovs\Opengraph\Property\UrlProperty;
+use Krasilnikovs\Opengraph\Model\Property\ImageProperty;
+use Krasilnikovs\Opengraph\Model\Property\ImagePropertyCollection;
+use Krasilnikovs\Opengraph\Model\Property\TitleProperty;
+use Krasilnikovs\Opengraph\Model\Property\TypeProperty;
+use Krasilnikovs\Opengraph\Model\Property\UrlProperty;
 use function array_map;
-use function array_values;
 use function iterator_to_array;
 
 final readonly class PropertyExtractor implements PropertyExtractorInterface
@@ -29,7 +28,7 @@ final readonly class PropertyExtractor implements PropertyExtractorInterface
 
     public function type(): TypeProperty
     {
-        $value = $this->getValueByProperty(TypeProperty::getName());
+        $value = $this->getValueByProperty(TypeProperty::getIdentifier());
 
         if (empty($value)) {
             return TypeProperty::website();
@@ -40,7 +39,7 @@ final readonly class PropertyExtractor implements PropertyExtractorInterface
 
     public function url(): UrlProperty
     {
-        $value = $this->getValueByProperty(UrlProperty::getName());
+        $value = $this->getValueByProperty(UrlProperty::getIdentifier());
 
         if (empty($value)) {
             return UrlProperty::empty();
@@ -51,7 +50,7 @@ final readonly class PropertyExtractor implements PropertyExtractorInterface
 
     public function title(): TitleProperty
     {
-        $value = $this->getValueByProperty(TitleProperty::getName());
+        $value = $this->getValueByProperty(TitleProperty::getIdentifier());
 
         if (empty($value)) {
             return TitleProperty::empty();
@@ -65,16 +64,17 @@ final readonly class PropertyExtractor implements PropertyExtractorInterface
      */
     public function images(): ImagePropertyCollection
     {
-        $properties = $this->byPropertyName(ImageProperty::getName());
+        $properties = $this->getPropertiesStartsWith(ImageProperty::getIdentifier());
 
-        return new ImagePropertyCollection(
-            array_values(
-                array_map(
-                    static fn(string $value): ImageProperty => ImageProperty::fromUrlString($value),
-                    $properties
-                )
-            )
-        );
+        $images = [];
+
+        foreach ($properties as [$property, $content]) {
+            if ($property === ImageProperty::getIdentifier()) {
+                $images[] = ImageProperty::fromUrl($content);
+            }
+        }
+
+        return new ImagePropertyCollection($images);
     }
 
 
@@ -97,5 +97,19 @@ final readonly class PropertyExtractor implements PropertyExtractorInterface
             static fn (Element $element) => (string) $element->getAttribute('content'),
             iterator_to_array($elements),
         );
+    }
+
+    /**
+     * @return iterable<array{string, string}>
+     */
+    private function getPropertiesStartsWith(string $property): iterable
+    {
+        // @TODO FIX EXTRACTING META like query
+        $query = sprintf('meta[property="%s"]', $property);
+        $elements = $this->document->querySelectorAll($query);
+
+        foreach ($elements as $element) {
+            yield [(string) $element->getAttribute('property'), (string) $element->getAttribute('content')];
+        }
     }
 }

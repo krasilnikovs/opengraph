@@ -48,7 +48,7 @@ final readonly class ChainObjectTransformer implements ObjectTransformerInterfac
         throw new LogicException(
             sprintf(
                 'No appropriate object transformer for type "%s"',
-                $extractor->type()->value,
+                $extractor->type()->content,
             ),
         );
     }

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Krasilnikovs\Opengraph\Property;
+namespace Krasilnikovs\Opengraph\Model\Property;
 
 use ArrayAccess;
 use Iterator;
@@ -65,7 +65,7 @@ final class ImagePropertyCollection implements Iterator, ArrayAccess
         return isset($this->images[$offset]);
     }
 
-    public function offsetGet(mixed $offset): ImageProperty
+    public function offsetGet(mixed $offset): ?ImageProperty
     {
         return $this->images[$offset];
     }

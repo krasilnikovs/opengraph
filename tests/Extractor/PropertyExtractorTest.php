@@ -13,10 +13,10 @@ final class PropertyExtractorTest extends TestCase
     {
         $extractor = PropertyExtractor::fromString($this->getContent());
 
-        self::assertEquals('website', $extractor->type()->value);
-        self::assertEquals('Krasilnikovs Homepage', $extractor->title()->value);
-        self::assertEquals('https://krasilnikovs.lv/', $extractor->url()->value);
-        self::assertEquals('https://krasilnikovs.lv/static/me.webp', $extractor->images()[0]->url->value);
+        self::assertEquals('website', $extractor->type()->content);
+        self::assertEquals('Krasilnikovs Homepage', $extractor->title()->content);
+        self::assertEquals('https://krasilnikovs.lv/', $extractor->url()->content);
+        self::assertEquals('https://krasilnikovs.lv/static/me.webp', $extractor->images()[0]->url->content);
     }
 
     private function getContent(): string
