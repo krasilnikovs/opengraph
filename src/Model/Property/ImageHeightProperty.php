@@ -4,8 +4,8 @@ namespace Krasilnikovs\Opengraph\Model\Property;
 
 final readonly class ImageHeightProperty extends AbstractProperty
 {
-    public static function getIdentifiers(): array
+    public static function getIdentifier(): string
     {
-        return ['og:image:height'];
+        return 'og:image:height';
     }
 }

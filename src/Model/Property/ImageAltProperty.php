@@ -4,8 +4,8 @@ namespace Krasilnikovs\Opengraph\Model\Property;
 
 final readonly class ImageAltProperty extends AbstractProperty
 {
-    public static function getIdentifiers(): array
+    public static function getIdentifier(): string
     {
-        return ['og:image:alt'];
+        return 'og:image:alt';
     }
 }

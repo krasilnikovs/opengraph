@@ -21,13 +21,5 @@ abstract readonly class AbstractProperty
         return static::fromString('');
     }
 
-    /**
-     * @return string[]
-     */
-    abstract public static function getIdentifiers(): array;
-
-    public static function getIdentifier(): string
-    {
-        return (string) current(static::getIdentifiers());
-    }
+    abstract public static function getIdentifier(): string;
 }

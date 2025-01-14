@@ -11,9 +11,9 @@ final readonly class TypeProperty extends AbstractProperty
         return self::fromString(self::WEBSITE);
     }
 
-    public static function getIdentifiers(): array
+    public static function getIdentifier(): string
     {
-        return ['og:type'];
+        return 'og:type';
     }
 
     public function isWebsite(): bool

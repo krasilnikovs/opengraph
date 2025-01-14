@@ -4,8 +4,8 @@ namespace Krasilnikovs\Opengraph\Model\Property;
 
 final readonly class ImageSecureUrlProperty extends AbstractProperty
 {
-    public static function getIdentifiers(): array
+    public static function getIdentifier(): string
     {
-        return ['og:image:secure_url'];
+        return 'og:image:secure_url';
     }
 }
