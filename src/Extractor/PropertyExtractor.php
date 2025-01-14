@@ -70,7 +70,7 @@ final readonly class PropertyExtractor implements PropertyExtractorInterface
 
         foreach ($properties as [$property, $content]) {
             if ($property === ImageProperty::getIdentifier()) {
-                $images[] = ImageProperty::fromUrl($content);
+                $images[] = ImageProperty::fromString($content);
             }
         }
 

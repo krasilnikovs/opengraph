@@ -16,7 +16,7 @@ final class PropertyExtractorTest extends TestCase
         self::assertEquals('website', $extractor->type()->content);
         self::assertEquals('Krasilnikovs Homepage', $extractor->title()->content);
         self::assertEquals('https://krasilnikovs.lv/', $extractor->url()->content);
-        self::assertEquals('https://krasilnikovs.lv/static/me.webp', $extractor->images()[0]->url->content);
+        self::assertEquals('https://krasilnikovs.lv/static/me.webp', $extractor->images()[0]->content);
     }
 
     private function getContent(): string
