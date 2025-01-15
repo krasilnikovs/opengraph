@@ -8,6 +8,9 @@ use Krasilnikovs\Opengraph\Model\Property\AudioProperty;
 use Krasilnikovs\Opengraph\Model\Property\AudioPropertyCollection;
 use Krasilnikovs\Opengraph\Model\Property\AudioSecureUrlProperty;
 use Krasilnikovs\Opengraph\Model\Property\AudioTypeProperty;
+use Krasilnikovs\Opengraph\Model\Property\Builder\AudioPropertyCollectionBuilder;
+use Krasilnikovs\Opengraph\Model\Property\Builder\ImagePropertyCollectionBuilder;
+use Krasilnikovs\Opengraph\Model\Property\ImageAltProperty;
 use Krasilnikovs\Opengraph\Model\Property\ImageHeightProperty;
 use Krasilnikovs\Opengraph\Model\Property\ImageProperty;
 use Krasilnikovs\Opengraph\Model\Property\ImagePropertyCollection;
@@ -38,10 +41,6 @@ final readonly class PropertyExtractor implements PropertyExtractorInterface
     {
         $value = $this->getValueByProperty(TypeProperty::getIdentifier());
 
-        if (empty($value)) {
-            return TypeProperty::website();
-        }
-
         return TypeProperty::fromString($value);
     }
 
@@ -49,20 +48,12 @@ final readonly class PropertyExtractor implements PropertyExtractorInterface
     {
         $value = $this->getValueByProperty(UrlProperty::getIdentifier());
 
-        if (empty($value)) {
-            return UrlProperty::empty();
-        }
-
         return UrlProperty::fromString($value);
     }
 
     public function title(): TitleProperty
     {
         $value = $this->getValueByProperty(TitleProperty::getIdentifier());
-
-        if (empty($value)) {
-            return TitleProperty::empty();
-        }
 
         return TitleProperty::fromString($value);
     }
@@ -72,47 +63,23 @@ final readonly class PropertyExtractor implements PropertyExtractorInterface
      */
     public function images(): ImagePropertyCollection
     {
-        $properties = $this->getPropertiesStartsWith(ImageProperty::getIdentifier());
+        $properties = $this->getPropertiesWithPrefix(ImageProperty::getIdentifier());
 
-        $images = [];
+        $builder = ImagePropertyCollectionBuilder::new();
 
         foreach ($properties as [$property, $content]) {
-            if ($property === ImageProperty::getIdentifier()) {
-                $images[] = ImageProperty::fromString($content);
-                continue;
-            }
-
-            $key = array_key_last($images);
-
-            /** @var ?ImageProperty $image */
-            $image = $images[$key] ?? null;
-
-            if ($image === null) {
-                continue;
-            }
-
-            if ($property === ImageSecureUrlProperty::getIdentifier()) {
-                $images[$key] = $image->withSecureUrl($content);
-            }
-
-            if ($property === ImageTypeProperty::getIdentifier()) {
-                $images[$key] = $image->withType($content);
-            }
-
-            if ($property === ImageWidthProperty::getIdentifier()) {
-                $images[$key] = $image->withWidth($content);
-            }
-
-            if ($property === ImageHeightProperty::getIdentifier()) {
-                $images[$key] = $image->withHeight($content);
-            }
-
-            if ($property === ImageHeightProperty::getIdentifier()) {
-                $images[$key] = $image->withAlt($content);
-            }
+            $builder = match ($property) {
+                ImageProperty::getIdentifier()          =>  $builder->withUrl($content),
+                ImageSecureUrlProperty::getIdentifier() =>  $builder->withSecureUrl($content),
+                ImageTypeProperty::getIdentifier()      =>  $builder->withType($content),
+                ImageWidthProperty::getIdentifier()     =>  $builder->withWidth($content),
+                ImageHeightProperty::getIdentifier()    =>  $builder->withHeight($content),
+                ImageAltProperty::getIdentifier()       =>  $builder->withAlt($content),
+                default => $builder,
+            };
         }
 
-        return new ImagePropertyCollection($images);
+        return $builder->build();
     }
 
     /**
@@ -120,41 +87,26 @@ final readonly class PropertyExtractor implements PropertyExtractorInterface
      */
     public function audios(): AudioPropertyCollection
     {
-        $properties = $this->getPropertiesStartsWith(AudioProperty::getIdentifier());
+        $properties = $this->getPropertiesWithPrefix(AudioProperty::getIdentifier());
 
-        $audios = [];
+        $builder = AudioPropertyCollectionBuilder::new();
 
         foreach ($properties as [$property, $content]) {
-            if ($property === AudioProperty::getIdentifier()) {
-                $audios[] = AudioProperty::fromString($content);
-                continue;
-            }
-
-            $key = array_key_last($audios);
-
-            /** @var ?AudioProperty $audio */
-            $audio = $audios[$key] ?? null;
-
-            if ($audio === null) {
-                continue;
-            }
-
-            if ($property === AudioSecureUrlProperty::getIdentifier()) {
-                $audios[$key] = $audio->withSecureUrl($content);
-            }
-
-            if ($property === AudioTypeProperty::getIdentifier()) {
-                $audios[$key] = $audio->withType($content);
-            }
+            $builder = match ($property) {
+                AudioProperty::getIdentifier()          => $builder->withUrl($content),
+                AudioSecureUrlProperty::getIdentifier() => $builder->withSecureUrl($content),
+                AudioTypeProperty::getIdentifier()      => $builder->withType($content),
+                default                                 => $builder,
+            };
         }
 
-        return new AudioPropertyCollection($audios);
+        return $builder->build();
     }
 
 
     private function getValueByProperty(string $property): string
     {
-        $properties = $this->byPropertyName($property);
+        $properties = $this->getPropertiesWithName($property);
 
         return (string) current($properties);
     }
@@ -162,9 +114,9 @@ final readonly class PropertyExtractor implements PropertyExtractorInterface
     /**
      * @return string[]
      */
-    private function byPropertyName(string $property): array
+    private function getPropertiesWithName(string $name): array
     {
-        $query = sprintf('meta[property="%s"]', $property);
+        $query = sprintf('meta[property="%s"]', $name);
         $elements = $this->document->querySelectorAll($query);
 
         return array_map(
@@ -176,9 +128,9 @@ final readonly class PropertyExtractor implements PropertyExtractorInterface
     /**
      * @return iterable<array{string, string}>
      */
-    private function getPropertiesStartsWith(string $property): iterable
+    private function getPropertiesWithPrefix(string $prefix): iterable
     {
-        $query = sprintf('meta[property^="%s"]', $property);
+        $query = sprintf('meta[property^="%s"]', $prefix);
         $elements = $this->document->querySelectorAll($query);
 
         foreach ($elements as $element) {

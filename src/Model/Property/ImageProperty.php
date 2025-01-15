@@ -27,6 +27,18 @@ final readonly class ImageProperty extends AbstractProperty
         parent::__construct($content);
     }
 
+    public static function new(
+        string $content,
+        ImageSecureUrlProperty $secureUrl,
+        ImageTypeProperty $type,
+        ImageWidthProperty $width,
+        ImageHeightProperty $height,
+        ImageAltProperty $alt
+    ): self
+    {
+        return new self($content, $secureUrl, $type, $width, $height, $alt);
+    }
+
     public static function fromString(string $content): static
     {
         return new self(

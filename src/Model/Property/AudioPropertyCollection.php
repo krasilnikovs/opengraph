@@ -18,11 +18,11 @@ final class AudioPropertyCollection implements Iterator, ArrayAccess
     private int $index;
 
     /**
-     * @param array<int, AudioProperty> $images
+     * @param array<int, AudioProperty> $audios
      */
-    public function __construct(array $images = [])
+    public function __construct(array $audios = [])
     {
-        $this->audios = $images;
+        $this->audios = $audios;
         $this->index = count($this->audios) - 1;
     }
 

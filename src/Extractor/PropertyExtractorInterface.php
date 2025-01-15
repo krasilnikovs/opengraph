@@ -2,6 +2,8 @@
 
 namespace Krasilnikovs\Opengraph\Extractor;
 
+use Krasilnikovs\Opengraph\Model\Property\AudioProperty;
+use Krasilnikovs\Opengraph\Model\Property\AudioPropertyCollection;
 use Krasilnikovs\Opengraph\Model\Property\ImagePropertyCollection;
 use Krasilnikovs\Opengraph\Model\Property\ImageUrlProperty;
 use Krasilnikovs\Opengraph\Model\Property\TitleProperty;
@@ -18,4 +20,9 @@ interface PropertyExtractorInterface
      * @return ImagePropertyCollection<ImageUrlProperty>
      */
     public function images(): ImagePropertyCollection;
+
+    /**
+     * @return AudioPropertyCollection<AudioProperty>
+     */
+    public function audios(): AudioPropertyCollection;
 }

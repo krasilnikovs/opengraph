@@ -3,6 +3,7 @@
 namespace Krasilnikovs\Opengraph\Tests\Transformer;
 
 use Krasilnikovs\Opengraph\Extractor\PropertyExtractorInterface;
+use Krasilnikovs\Opengraph\Model\Property\AudioPropertyCollection;
 use Krasilnikovs\Opengraph\Model\Property\ImagePropertyCollection;
 use Krasilnikovs\Opengraph\Model\Property\TitleProperty;
 use Krasilnikovs\Opengraph\Model\Property\TypeProperty;
@@ -51,6 +52,11 @@ final class WebsiteObjectTransformerTest extends ObjectTransformerTestCase
             public function images(): ImagePropertyCollection
             {
                 return new ImagePropertyCollection([]);
+            }
+
+            public function audios(): AudioPropertyCollection
+            {
+                return new AudioPropertyCollection([]);
             }
         };
     }
