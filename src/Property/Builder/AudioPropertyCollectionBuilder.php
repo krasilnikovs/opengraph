@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Krasilnikovs\Opengraph\Model\Property\Builder;
+namespace Krasilnikovs\Opengraph\Property\Builder;
 
-use Krasilnikovs\Opengraph\Model\Property\AudioProperty;
-use Krasilnikovs\Opengraph\Model\Property\AudioPropertyCollection;
-use Krasilnikovs\Opengraph\Model\Property\AudioSecureUrlProperty;
-use Krasilnikovs\Opengraph\Model\Property\AudioTypeProperty;
+use Krasilnikovs\Opengraph\Property\AudioProperty;
+use Krasilnikovs\Opengraph\Property\AudioPropertyCollection;
+use Krasilnikovs\Opengraph\Property\AudioSecureUrlProperty;
+use Krasilnikovs\Opengraph\Property\AudioTypeProperty;
 
 final class AudioPropertyCollectionBuilder
 {

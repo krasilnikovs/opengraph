@@ -35,7 +35,6 @@ final class PropertyExtractorTest extends TestCase
                         <meta property="og:image:secure_url" content="https://secure.krasilnikovs.lv/static/me.webp" />
                         <meta property="og:audio" content="https://krasilnikovs.lv/static/me.mp3" />
                         <meta property="og:audio" content="https://krasilnikovs.lv/static/me2.mp3" />
-
                     </head> 
                     <body></body> 
                 </html>

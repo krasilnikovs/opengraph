@@ -3,7 +3,7 @@
 namespace Krasilnikovs\Opengraph\Tests\Transformer;
 
 use Krasilnikovs\Opengraph\Extractor\PropertyExtractorInterface;
-use Krasilnikovs\Opengraph\Model\Property\TypeProperty;
+use Krasilnikovs\Opengraph\Property\TypeProperty;
 use Krasilnikovs\Opengraph\Transformer\ObjectTransformerInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;

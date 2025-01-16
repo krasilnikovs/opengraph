@@ -1,14 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace Krasilnikovs\Opengraph\Model\Property\Builder;
+namespace Krasilnikovs\Opengraph\Property\Builder;
 
-use Krasilnikovs\Opengraph\Model\Property\ImageAltProperty;
-use Krasilnikovs\Opengraph\Model\Property\ImageHeightProperty;
-use Krasilnikovs\Opengraph\Model\Property\ImageProperty;
-use Krasilnikovs\Opengraph\Model\Property\ImagePropertyCollection;
-use Krasilnikovs\Opengraph\Model\Property\ImageSecureUrlProperty;
-use Krasilnikovs\Opengraph\Model\Property\ImageTypeProperty;
-use Krasilnikovs\Opengraph\Model\Property\ImageWidthProperty;
+use Krasilnikovs\Opengraph\Property\ImageAltProperty;
+use Krasilnikovs\Opengraph\Property\ImageHeightProperty;
+use Krasilnikovs\Opengraph\Property\ImageProperty;
+use Krasilnikovs\Opengraph\Property\ImagePropertyCollection;
+use Krasilnikovs\Opengraph\Property\ImageSecureUrlProperty;
+use Krasilnikovs\Opengraph\Property\ImageTypeProperty;
+use Krasilnikovs\Opengraph\Property\ImageWidthProperty;
 
 final readonly class ImagePropertyCollectionBuilder
 {

@@ -2,13 +2,13 @@
 
 namespace Krasilnikovs\Opengraph\Extractor;
 
-use Krasilnikovs\Opengraph\Model\Property\AudioProperty;
-use Krasilnikovs\Opengraph\Model\Property\AudioPropertyCollection;
-use Krasilnikovs\Opengraph\Model\Property\ImagePropertyCollection;
-use Krasilnikovs\Opengraph\Model\Property\ImageUrlProperty;
-use Krasilnikovs\Opengraph\Model\Property\TitleProperty;
-use Krasilnikovs\Opengraph\Model\Property\TypeProperty;
-use Krasilnikovs\Opengraph\Model\Property\UrlProperty;
+use Krasilnikovs\Opengraph\Property\AudioProperty;
+use Krasilnikovs\Opengraph\Property\AudioPropertyCollection;
+use Krasilnikovs\Opengraph\Property\ImagePropertyCollection;
+use Krasilnikovs\Opengraph\Property\ImageUrlProperty;
+use Krasilnikovs\Opengraph\Property\TitleProperty;
+use Krasilnikovs\Opengraph\Property\TypeProperty;
+use Krasilnikovs\Opengraph\Property\UrlProperty;
 
 interface PropertyExtractorInterface
 {

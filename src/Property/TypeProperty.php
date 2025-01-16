@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Krasilnikovs\Opengraph\Model\Property;
+namespace Krasilnikovs\Opengraph\Property;
 
 final readonly class TypeProperty extends AbstractProperty
 {

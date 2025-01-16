@@ -2,10 +2,10 @@
 
 namespace Krasilnikovs\Opengraph\Object;
 
-use Krasilnikovs\Opengraph\Model\Property\ImagePropertyCollection;
-use Krasilnikovs\Opengraph\Model\Property\TitleProperty;
-use Krasilnikovs\Opengraph\Model\Property\TypeProperty;
-use Krasilnikovs\Opengraph\Model\Property\UrlProperty;
+use Krasilnikovs\Opengraph\Property\ImagePropertyCollection;
+use Krasilnikovs\Opengraph\Property\TitleProperty;
+use Krasilnikovs\Opengraph\Property\TypeProperty;
+use Krasilnikovs\Opengraph\Property\UrlProperty;
 
 abstract readonly class AbstractBaseObject
 {
