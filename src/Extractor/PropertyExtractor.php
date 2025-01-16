@@ -134,7 +134,7 @@ final readonly class PropertyExtractor implements PropertyExtractorInterface
                 AudioProperty::getName()          => $builder->withUrl($content),
                 AudioSecureUrlProperty::getName() => $builder->withSecureUrl($content),
                 AudioTypeProperty::getName()      => $builder->withType($content),
-                default                                 => $builder,
+                default                           => $builder,
             };
         }
 
