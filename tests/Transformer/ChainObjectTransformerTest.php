@@ -3,12 +3,16 @@
 namespace Krasilnikovs\Opengraph\Tests\Transformer;
 
 use Krasilnikovs\Opengraph\Extractor\PropertyExtractorInterface;
+use Krasilnikovs\Opengraph\Object\WebsiteObject;
 use Krasilnikovs\Opengraph\Property\AudioPropertyCollection;
+use Krasilnikovs\Opengraph\Property\DescriptionProperty;
+use Krasilnikovs\Opengraph\Property\DeterminerProperty;
 use Krasilnikovs\Opengraph\Property\ImagePropertyCollection;
+use Krasilnikovs\Opengraph\Property\LocaleAlternateProperty;
+use Krasilnikovs\Opengraph\Property\LocaleProperty;
 use Krasilnikovs\Opengraph\Property\TitleProperty;
 use Krasilnikovs\Opengraph\Property\TypeProperty;
 use Krasilnikovs\Opengraph\Property\UrlProperty;
-use Krasilnikovs\Opengraph\Object\WebsiteObject;
 use Krasilnikovs\Opengraph\Transformer\ChainObjectTransformer;
 use Krasilnikovs\Opengraph\Transformer\ObjectTransformerInterface;
 use LogicException;
@@ -68,6 +72,21 @@ final class ChainObjectTransformerTest extends ObjectTransformerTestCase
             public function audios(): AudioPropertyCollection
             {
                 return new AudioPropertyCollection([]);
+            }
+
+            public function description(): DescriptionProperty
+            {
+                return DescriptionProperty::fromString('Krasilnikovs Homepage');
+            }
+
+            public function determiner(): DeterminerProperty
+            {
+                return DeterminerProperty::empty();
+            }
+
+            public function locale(): LocaleProperty
+            {
+                return LocaleProperty::new('lv', [LocaleAlternateProperty::fromString('ru')]);
             }
         };
     }

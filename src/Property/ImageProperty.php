@@ -63,49 +63,8 @@ final readonly class ImageProperty extends AbstractProperty
         );
     }
 
-    public static function getIdentifier(): string
+    public static function getName(): string
     {
         return 'og:image';
-    }
-    public function withSecureUrl(string $secureUrl): self
-    {
-        return $this->cloneWith(secureUrl: ImageSecureUrlProperty::fromString($secureUrl));
-    }
-
-    public function withType(string $type): self
-    {
-        return $this->cloneWith(type: ImageTypeProperty::fromString($type));
-    }
-
-    public function withWidth(string $width): self
-    {
-        return $this->cloneWith(width: ImageWidthProperty::fromString($width));
-    }
-
-    public function withHeight(string $height): self
-    {
-        return $this->cloneWith(height: ImageHeightProperty::fromString($height));
-    }
-
-    public function withAlt(ImageAltProperty $alt): self
-    {
-        return $this->cloneWith(alt: $alt);
-    }
-
-    private function cloneWith(
-        ?ImageSecureUrlProperty $secureUrl = null,
-        ?ImageTypeProperty $type = null,
-        ?ImageWidthProperty $width = null,
-        ?ImageHeightProperty $height = null,
-        ?ImageAltProperty $alt = null
-    ): self {
-        return new self(
-            content:   $this->content,
-            secureUrl: $secureUrl      ?? clone $this->secureUrl,
-            type:      $type           ?? clone $this->type,
-            width:     $width          ?? clone $this->width,
-            height:    $height         ?? clone $this->height,
-            alt:       $alt            ?? clone $this->alt,
-        );
     }
 }

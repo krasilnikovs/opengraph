@@ -39,7 +39,7 @@ final readonly class AudioProperty extends AbstractProperty
     }
 
 
-    public static function getIdentifier(): string
+    public static function getName(): string
     {
         return 'og:audio';
     }

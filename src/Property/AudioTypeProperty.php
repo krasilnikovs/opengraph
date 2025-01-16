@@ -4,7 +4,7 @@ namespace Krasilnikovs\Opengraph\Property;
 
 final readonly class AudioTypeProperty extends AbstractProperty
 {
-    public static function getIdentifier(): string
+    public static function getName(): string
     {
         return 'og:audio:type';
     }

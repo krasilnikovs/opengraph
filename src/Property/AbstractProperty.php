@@ -21,5 +21,5 @@ abstract readonly class AbstractProperty
         return static::fromString('');
     }
 
-    abstract public static function getIdentifier(): string;
+    abstract public static function getName(): string;
 }

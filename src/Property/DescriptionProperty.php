@@ -2,10 +2,10 @@
 
 namespace Krasilnikovs\Opengraph\Property;
 
-final readonly class TitleProperty extends AbstractProperty
+final readonly class DescriptionProperty extends AbstractProperty
 {
     public static function getName(): string
     {
-        return 'og:title';
+        return 'og:description';
     }
 }

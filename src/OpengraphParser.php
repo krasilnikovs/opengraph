@@ -3,7 +3,7 @@
 namespace Krasilnikovs\Opengraph;
 
 use Krasilnikovs\Opengraph\Extractor\PropertyExtractor;
-use Krasilnikovs\Opengraph\Object\AbstractBaseObject;
+use Krasilnikovs\Opengraph\Object\AbstractObject;
 use Krasilnikovs\Opengraph\Transformer\ChainObjectTransformer;
 use Krasilnikovs\Opengraph\Transformer\ObjectTransformerInterface;
 use Krasilnikovs\Opengraph\Transformer\WebsiteObjectTransformer;
@@ -22,7 +22,7 @@ final readonly class OpengraphParser
         $this->fallback    = $fallback;
     }
 
-    public function parse(string $content): AbstractBaseObject
+    public function parse(string $content): AbstractObject
     {
         $extractor = PropertyExtractor::fromString($content);
 

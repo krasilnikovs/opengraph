@@ -4,7 +4,7 @@ namespace Krasilnikovs\Opengraph\Property;
 
 final readonly class UrlProperty extends AbstractProperty
 {
-    public static function getIdentifier(): string
+    public static function getName(): string
     {
         return 'og:url';
     }
