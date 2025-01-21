@@ -16,8 +16,14 @@ cs-fix:
 phpstan:
 	docker exec opengraph_app ./vendor/bin/phpstan --memory-limit=256M
 
-unit-test:
-	docker exec opengraph_app ./vendor/bin/phpunit --testsuite=unit
+test:
+	docker exec -e XDEBUG_MODE=off opengraph_app ./vendor/bin/phpunit --testsuite=unit --coverage-text
+
+code-coverage:
+	docker exec -e XDEBUG_MODE=coverage opengraph_app ./vendor/bin/phpunit --coverage-html ./var/coverage
 
 deps:
 	docker exec opengraph_app composer install
+
+example:
+	docker exec opengraph_app php ./examples/basic.php
