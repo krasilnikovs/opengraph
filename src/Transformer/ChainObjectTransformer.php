@@ -5,10 +5,9 @@ namespace Krasilnikovs\Opengraph\Transformer;
 use Krasilnikovs\Opengraph\Object\AbstractObject;
 use Krasilnikovs\Opengraph\Property\Extractor\PropertyExtractor;
 use Krasilnikovs\Opengraph\Scraper\MetaScraperInterface;
-use LogicException;
+use Krasilnikovs\Opengraph\Transformer\Exception\TransformationException;
 use function array_any;
 use function iterator_to_array;
-use function sprintf;
 
 final readonly class ChainObjectTransformer implements ObjectTransformerInterface
 {
@@ -41,18 +40,8 @@ final readonly class ChainObjectTransformer implements ObjectTransformerInterfac
             }
         }
 
-        $this->throwLogicException($scraper);
-    }
-
-    private function throwLogicException(MetaScraperInterface $scraper): never
-    {
         $extractor = PropertyExtractor::fromMetaScraper($scraper);
 
-        throw new LogicException(
-            sprintf(
-                'No appropriate object transformer for type "%s"',
-                $extractor->type(),
-            ),
-        );
+        throw TransformationException::notFoundSupportedTransformerForType($extractor->type());
     }
 }

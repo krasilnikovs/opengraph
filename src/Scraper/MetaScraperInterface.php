@@ -30,9 +30,9 @@ interface MetaScraperInterface
     public function getContentByName(string $name): string;
 
     /**
-     * @return string[]
+     * @return iterable<string>
      */
-    public function getContentsByName(string $name): array;
+    public function getContentsByName(string $name): iterable;
 
     /**
      * @return iterable<array{string, string}>

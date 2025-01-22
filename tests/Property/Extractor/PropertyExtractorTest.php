@@ -223,6 +223,7 @@ final class PropertyExtractorTest extends TestCase
                         <meta property="og:image:width" content="128">
                         <meta property="og:image:height" content="128">
                         <meta property="og:image:alt" content="Mihails Krasilnikovs">
+                        <meta property="og:image:mistake" content="ping">
                     HTML,
                 'expected' => new ImageCollection([
                     Image::new(
@@ -253,6 +254,7 @@ final class PropertyExtractorTest extends TestCase
                         <meta property="og:audio" content="https://krasilnikovs.lv/static/me.mp3">
                         <meta property="og:audio:secure_url" content="https://krasilnikovs.lv/static/me_secure.mp3">
                         <meta property="og:audio:type" content="audio/mp3">
+                        <meta property="og:audio:mistake" content="ping">
                     HTML,
                 'expected' => new AudioCollection([
                     Audio::new(
@@ -282,6 +284,7 @@ final class PropertyExtractorTest extends TestCase
                         <meta property="og:video:type" content="image/mp4">
                         <meta property="og:video:width" content="128">
                         <meta property="og:video:height" content="128">
+                        <meta property="og:video:mistake" content="ping">
                     HTML,
                 'expected' => new VideoCollection([
                     Video::new(

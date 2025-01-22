@@ -3,7 +3,6 @@
 namespace Krasilnikovs\Opengraph\Tests\Transformer;
 
 use Krasilnikovs\Opengraph\Object\WebsiteObject;
-use Krasilnikovs\Opengraph\Scraper\MetaScraperInterface;
 use Krasilnikovs\Opengraph\Transformer\ObjectTransformerInterface;
 use Krasilnikovs\Opengraph\Transformer\WebsiteObjectTransformer;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -11,11 +10,6 @@ use PHPUnit\Framework\Attributes\CoversClass;
 #[CoversClass(WebsiteObjectTransformer::class)]
 final class WebsiteObjectTransformerTest extends ObjectTransformerTestCase
 {
-    public static function getTypeProperty(): string
-    {
-        return WebsiteObject::getType();
-    }
-
     protected static function getTransformer(): ObjectTransformerInterface
     {
         return new WebsiteObjectTransformer();
@@ -26,39 +20,49 @@ final class WebsiteObjectTransformerTest extends ObjectTransformerTestCase
         return WebsiteObject::class;
     }
 
-    protected static function getScraper(): MetaScraperInterface
+    public static function supportsProvider(): array
     {
-        return new class implements MetaScraperInterface {
-            public function getContentByName(string $name): string
-            {
-                return match ($name) {
-                    MetaScraperInterface::TYPE_PROPERTY => 'website',
-                    MetaScraperInterface::URL_PROPERTY => 'https://krasilnikovs.lv',
-                    MetaScraperInterface::TITLE_PROPERTY => 'Krasilnikovs Homepage',
-                    MetaScraperInterface::DESCRIPTION_PROPERTY => 'Krasilnikovs Homepage',
-                    MetaScraperInterface::DETERMINER_PROPERTY => 'auto',
-                    MetaScraperInterface::LOCALE_PROPERTY => 'lv',
-                    default => '',
-                };
-            }
-
-            public function getContentsByName(string $name): array
-            {
-                return match ($name) {
-                    MetaScraperInterface::LOCALE_ALTERNATE_PROPERTY => ['ru'],
-                    default => [],
-                };
-            }
-
-            public function getContentsByPrefix(string $prefix): iterable
-            {
-                return match ($prefix) {
-                    MetaScraperInterface::IMAGE_PROPERTY => [],
-                    MetaScraperInterface::AUDIO_PROPERTY => [],
-                    default => [],
-                };
-            }
-        };
+        return [
+            'true-supports' => [
+                'content' => <<<HTML
+                        <meta property="og:type" content="website"> />
+                    HTML,
+                'expected' => true,
+            ],
+            'false-supports' => [
+                'content' => '',
+                'expected' => false,
+            ],
+        ];
     }
 
+    public static function shouldThrowExceptionDuringTransformToObjectProvider(): array
+    {
+        return [
+            'with-empty-url' => [
+                'content' => <<<HTML
+                        <meta property="og:url" content="" />
+                        <meta property="og:title" content="Krasilnikovs Homepage" />
+                        <meta property="og:image" content="https://krasilnikovs.lv/static/me.webp" />
+                    HTML,
+                'exceptionMessage' => 'Required not empty value for property "og:url"',
+            ],
+            'with-empty-title' => [
+                'content' => <<<HTML
+                        <meta property="og:url" content="https://krasilnikovs.lv" />
+                        <meta property="og:title" content="" />
+                        <meta property="og:image" content="https://krasilnikovs.lv/static/me.webp" />
+                    HTML,
+                'exceptionMessage' => 'Required not empty value for property "og:title"',
+            ],
+            'with-empty-image' => [
+                'content' => <<<HTML
+                        <meta property="og:url" content="https://krasilnikovs.lv" />
+                        <meta property="og:title" content="Krasilnikovs Homepage" />
+                        <meta property="og:image" content="" />
+                    HTML,
+                'exceptionMessage' => 'At least one element required for property "og:image"',
+            ],
+        ];
+    }
 }
