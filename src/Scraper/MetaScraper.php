@@ -2,9 +2,7 @@
 
 namespace Krasilnikovs\Opengraph\Scraper;
 
-use Dom\Element;
 use Dom\HTMLDocument;
-use function array_map;
 use function current;
 use function iterator_to_array;
 use function sprintf;
@@ -27,21 +25,17 @@ final readonly class MetaScraper implements MetaScraperInterface
     {
         $properties = $this->getContentsByName($name);
 
-        return (string) current($properties);
+        return (string) current(iterator_to_array($properties));
     }
 
-    /**
-     * @return string[]
-     */
-    public function getContentsByName(string $name): array
+    public function getContentsByName(string $name): iterable
     {
         $query = sprintf('meta[property="%s"]', $name);
         $elements = $this->document->querySelectorAll($query);
 
-        return array_map(
-            static fn (Element $element) => (string) $element->getAttribute('content'),
-            iterator_to_array($elements),
-        );
+        foreach ($elements as $element) {
+            yield (string) $element->getAttribute('content');
+        }
     }
 
     /**

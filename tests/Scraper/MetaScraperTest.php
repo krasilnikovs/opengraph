@@ -25,11 +25,11 @@ final class MetaScraperTest extends TestCase
      * @param string[] $expected
      */
     #[DataProvider('getContentsByNameProvider')]
-    public function testShouldGetContentsByName(string $content, string $propertyName, array $expected): void
+    public function testShouldGetContentsByName(string $content, string $propertyName, iterable $expected): void
     {
         $scraper = MetaScraper::fromString($content);
 
-        $actual = $scraper->getContentsByName($propertyName);
+        $actual = iterator_to_array($scraper->getContentsByName($propertyName));
 
         self::assertEquals($expected, $actual);
     }

@@ -74,7 +74,7 @@ final readonly class PropertyExtractor
             $locale = Locale::DEFAULT_LOCALE;
         }
 
-        return Locale::new($locale, $alternates);
+        return Locale::new($locale, iterator_to_array($alternates));
     }
 
     /**
@@ -87,6 +87,10 @@ final readonly class PropertyExtractor
         $builder = ImageCollectionBuilder::new();
 
         foreach ($properties as [$property, $content]) {
+
+            if ($content === '') {
+                continue;
+            }
 
             if ($property === MetaScraperInterface::IMAGE_PROPERTY) {
                 $builder = $builder->append();

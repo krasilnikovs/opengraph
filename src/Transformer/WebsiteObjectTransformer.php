@@ -6,6 +6,7 @@ use Krasilnikovs\Opengraph\Object\AbstractObject;
 use Krasilnikovs\Opengraph\Object\WebsiteObject;
 use Krasilnikovs\Opengraph\Property\Extractor\PropertyExtractor;
 use Krasilnikovs\Opengraph\Scraper\MetaScraperInterface;
+use Krasilnikovs\Opengraph\Transformer\Exception\TransformationException;
 
 final readonly class WebsiteObjectTransformer implements ObjectTransformerInterface
 {
@@ -20,15 +21,35 @@ final readonly class WebsiteObjectTransformer implements ObjectTransformerInterf
     {
         $extractor = PropertyExtractor::fromMetaScraper($scraper);
 
+        if ($extractor->url() === '') {
+            throw TransformationException::requiredNotEmptyValueForProperty(
+                MetaScraperInterface::URL_PROPERTY
+            );
+        }
+
+        if ($extractor->title() === '') {
+            throw TransformationException::requiredNotEmptyValueForProperty(
+                MetaScraperInterface::TITLE_PROPERTY
+            );
+        }
+
+        if ($extractor->images()->count() < 1) {
+            throw TransformationException::atLeastOneElementRequiredForProperty(
+                MetaScraperInterface::IMAGE_PROPERTY
+            );
+        }
+
         return new WebsiteObject(
-            url: $extractor->url(),
-            title: $extractor->title(),
+            url:         $extractor->url(),
+            title:       $extractor->title(),
             description: $extractor->description(),
-            siteName: $extractor->siteName(),
-            determiner: $extractor->determiner(),
-            images: $extractor->images(),
-            audios: $extractor->audios(),
-            videos: $extractor->videos(),
+            siteName:    $extractor->siteName(),
+            determiner:  $extractor->determiner(),
+            images:      $extractor->images(),
+            audios:      $extractor->audios(),
+            videos:      $extractor->videos(),
         );
     }
+
+
 }

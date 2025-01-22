@@ -3,30 +3,13 @@
 namespace Krasilnikovs\Opengraph\Tests\Transformer;
 
 use Krasilnikovs\Opengraph\Object\WebsiteObject;
-use Krasilnikovs\Opengraph\Scraper\MetaScraperInterface;
 use Krasilnikovs\Opengraph\Transformer\ChainObjectTransformer;
 use Krasilnikovs\Opengraph\Transformer\ObjectTransformerInterface;
-use LogicException;
 use PHPUnit\Framework\Attributes\CoversClass;
 
 #[CoversClass(ChainObjectTransformer::class)]
 final class ChainObjectTransformerTest extends ObjectTransformerTestCase
 {
-    public function testShouldThrowLogicException(): void
-    {
-        $this->expectException(LogicException::class);
-        $this->expectExceptionMessage('No appropriate object transformer for type "website"');
-
-        $transformer = new ChainObjectTransformer([]);
-
-        self::assertFalse($transformer->supports($this->getScraper()));
-        $transformer->toObject($this->getScraper());
-    }
-    public static function getTypeProperty(): string
-    {
-        return WebsiteObject::getType();
-    }
-
     protected static function getTransformer(): ObjectTransformerInterface
     {
         return new ChainObjectTransformer();
@@ -37,39 +20,30 @@ final class ChainObjectTransformerTest extends ObjectTransformerTestCase
         return WebsiteObject::class;
     }
 
-    protected static function getScraper(): MetaScraperInterface
+    public static function supportsProvider(): array
     {
-        return new class implements MetaScraperInterface {
-            public function getContentByName(string $name): string
-            {
-                return match ($name) {
-                    MetaScraperInterface::TYPE_PROPERTY => 'website',
-                    MetaScraperInterface::URL_PROPERTY => 'https://krasilnikovs.lv',
-                    MetaScraperInterface::TITLE_PROPERTY => 'Krasilnikovs Homepage',
-                    MetaScraperInterface::DESCRIPTION_PROPERTY => 'Krasilnikovs Homepage',
-                    MetaScraperInterface::DETERMINER_PROPERTY => 'auto',
-                    MetaScraperInterface::LOCALE_PROPERTY => 'lv',
-                    default => '',
-                };
-            }
+        return [
+            'true-supports' => [
+                'content' => <<<HTML
+                        <meta property="og:type" content="website"> />
+                    HTML,
+                'expected' => true,
+            ],
+            'false-supports' => [
+                'content' => '',
+                'expected' => false,
+            ],
+        ];
+    }
 
-            public function getContentsByName(string $name): array
-            {
-                return match ($name) {
-                    MetaScraperInterface::LOCALE_ALTERNATE_PROPERTY => ['ru'],
-                    default => [],
-                };
-            }
-
-            public function getContentsByPrefix(string $prefix): iterable
-            {
-                return match ($prefix) {
-                    MetaScraperInterface::IMAGE_PROPERTY => [],
-                    MetaScraperInterface::AUDIO_PROPERTY => [],
-                    default => [],
-                };
-            }
-        };
+    public static function shouldThrowExceptionDuringTransformToObjectProvider(): array
+    {
+        return [
+            'no-handler' => [
+                'content' => '<meta property="og:type" content="custom-website">',
+                'exceptionMessage' => 'Not found transformer for type "custom-website"',
+            ],
+        ];
     }
 
 }

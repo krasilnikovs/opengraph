@@ -3,13 +3,14 @@
 namespace Krasilnikovs\Opengraph\Property;
 
 use ArrayAccess;
+use Countable;
 use Iterator;
 
 /**
  * @template-implements Iterator<array-key, Image>
  * @template-implements ArrayAccess<array-key, Image>
  */
-final class ImageCollection implements Iterator, ArrayAccess
+final class ImageCollection implements Iterator, ArrayAccess, Countable
 {
     /**
      * @var array<array-key, Image>
@@ -78,5 +79,10 @@ final class ImageCollection implements Iterator, ArrayAccess
     public function offsetUnset(mixed $offset): void
     {
         unset($this->images[$offset]);
+    }
+
+    public function count(): int
+    {
+        return \count($this->images);
     }
 }
