@@ -11,6 +11,7 @@ use Krasilnikovs\Opengraph\Property\Determiner;
 use Krasilnikovs\Opengraph\Property\Image;
 use Krasilnikovs\Opengraph\Property\ImageCollection;
 use Krasilnikovs\Opengraph\Property\Locale;
+use Krasilnikovs\Opengraph\Property\MusicAlbum;
 use Krasilnikovs\Opengraph\Property\Video;
 use Krasilnikovs\Opengraph\Property\VideoCollection;
 use Krasilnikovs\Opengraph\Scraper\MetaScraperInterface;
@@ -162,5 +163,18 @@ final readonly class PropertyExtractor
         }
 
         return $builder->build();
+    }
+
+    public function musicAlbum(): MusicAlbum
+    {
+        $releaseDate = $this->scraper->getContentByName(MetaScraperInterface::MUSIC_RELEASE_DATE_PROPERTY);
+        $musicians   = $this->scraper->getContentsByName(MetaScraperInterface::MUSIC_MUSICIAN_PROPERTY);
+        $songs       = $this->scraper->getContentsByName(MetaScraperInterface::MUSIC_SONG_PROPERTY);
+
+        return new MusicAlbum(
+            releaseDate: $releaseDate,
+            musicians: array_values(iterator_to_array($musicians)),
+            songs: array_values(iterator_to_array($songs)),
+        );
     }
 }

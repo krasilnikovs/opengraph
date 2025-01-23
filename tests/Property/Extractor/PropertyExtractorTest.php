@@ -2,6 +2,7 @@
 
 namespace Krasilnikovs\Opengraph\Tests\Property\Extractor;
 
+use DateTimeImmutable;
 use Krasilnikovs\Opengraph\Property\Audio;
 use Krasilnikovs\Opengraph\Property\AudioCollection;
 use Krasilnikovs\Opengraph\Property\Determiner;
@@ -148,6 +149,34 @@ final class PropertyExtractorTest extends TestCase
 
         self::assertEquals($expected, $actual);
     }
+
+    public function testShouldExtractMusicAlbum(): void
+    {
+        $content = <<<HTML
+                <meta property="music:release_date" content="2014-11-24">
+                <meta property="music:musician" content="https://lv.wikipedia.org/wiki/Raimonds_Pauls">
+                <meta property="music:song" content="https://open.spotify.com/track/488ppPsbOwN7T26XKuXruh?si=c44f580436ba440a">
+                <meta property="music:song" content="https://open.spotify.com/track/030zL05q4n5QU2TvM5IMaq?si=a0edbb80e9014c8b">
+            HTML;
+
+        $extractor = PropertyExtractor::fromMetaScraper(
+            MetaScraper::fromString($content)
+        );
+
+        $actual = $extractor->musicAlbum();
+
+        $expectedReleaseDate = new DateTimeImmutable('2014-11-24');
+        $expectedMusicians = ['https://lv.wikipedia.org/wiki/Raimonds_Pauls'];
+        $expectedSongs = [
+            'https://open.spotify.com/track/488ppPsbOwN7T26XKuXruh?si=c44f580436ba440a',
+            'https://open.spotify.com/track/030zL05q4n5QU2TvM5IMaq?si=a0edbb80e9014c8b',
+        ];
+
+        self::assertEquals($expectedReleaseDate, $actual->releaseDate());
+        self::assertEquals($expectedMusicians, $actual->musicians());
+        self::assertEquals($expectedSongs, $actual->songs());
+    }
+
 
 
     /**
