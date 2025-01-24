@@ -13,7 +13,9 @@ final readonly class MusicPlaylistPropertyExtractor
      */
     public function creators(): array
     {
-        return $this->scraper->getContentsByName(MetaScraperInterface::MUSIC_CREATOR_PROPERTY);
+        $creators =  $this->scraper->getContentsByName(MetaScraperInterface::MUSIC_CREATOR_PROPERTY);
+
+        return array_values(iterator_to_array($creators));
     }
 
     /**
@@ -21,6 +23,8 @@ final readonly class MusicPlaylistPropertyExtractor
      */
     public function songs(): array
     {
-        return $this->scraper->getContentsByName(MetaScraperInterface::MUSIC_SONG_PROPERTY);
+        $songs = $this->scraper->getContentsByName(MetaScraperInterface::MUSIC_SONG_PROPERTY);
+
+        return array_values(iterator_to_array($songs));
     }
 }
