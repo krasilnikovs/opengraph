@@ -12,18 +12,16 @@ final class TransformationException extends RuntimeException
         parent::__construct($message, $code, $previous);
     }
 
-    public static function requiredNotEmptyValueForProperty(string $propertyName): self
-    {
-        return new self(sprintf('Required not empty value for property "%s"', $propertyName));
-    }
-
-    public static function atLeastOneElementRequiredForProperty(string $propertyName): self
-    {
-        return new self(sprintf('At least one element required for property "%s"', $propertyName));
-    }
-
     public static function notFoundSupportedTransformerForType(string $type): self
     {
         return new self(sprintf('Not found transformer for type "%s"', $type));
+    }
+
+    public static function transformationError(Throwable $throwable): self
+    {
+        return new self(
+            message: sprintf('Transformation error: %s', $throwable->getMessage()),
+            previous: $throwable
+        );
     }
 }

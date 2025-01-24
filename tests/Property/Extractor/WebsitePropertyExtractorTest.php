@@ -2,11 +2,11 @@
 
 namespace Krasilnikovs\Opengraph\Tests\Property\Extractor;
 
-use DateTimeImmutable;
 use Krasilnikovs\Opengraph\Property\Audio;
 use Krasilnikovs\Opengraph\Property\AudioCollection;
 use Krasilnikovs\Opengraph\Property\Determiner;
-use Krasilnikovs\Opengraph\Property\Extractor\PropertyExtractor;
+use Krasilnikovs\Opengraph\Property\Extractor\Exception\PropertyNotExtractedException;
+use Krasilnikovs\Opengraph\Property\Extractor\WebsitePropertyExtractor;
 use Krasilnikovs\Opengraph\Property\Image;
 use Krasilnikovs\Opengraph\Property\ImageCollection;
 use Krasilnikovs\Opengraph\Property\Locale;
@@ -17,14 +17,14 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(PropertyExtractor::class)]
-final class PropertyExtractorTest extends TestCase
+#[CoversClass(WebsitePropertyExtractor::class)]
+final class WebsitePropertyExtractorTest extends TestCase
 {
     public function testShouldExtractType(): void
     {
         $content = '<meta property="og:type" content="website">';
 
-        $extractor = PropertyExtractor::fromMetaScraper(
+        $extractor = WebsitePropertyExtractor::fromMetaScraper(
             MetaScraper::fromString($content)
         );
 
@@ -38,7 +38,7 @@ final class PropertyExtractorTest extends TestCase
     {
         $content = '<meta property="og:url" content="https://krasilnikovs.lv">';
 
-        $extractor = PropertyExtractor::fromMetaScraper(
+        $extractor = WebsitePropertyExtractor::fromMetaScraper(
             MetaScraper::fromString($content)
         );
 
@@ -52,7 +52,7 @@ final class PropertyExtractorTest extends TestCase
     {
         $content = '<meta property="og:title" content="Mihails Krasilnikovs">';
 
-        $extractor = PropertyExtractor::fromMetaScraper(
+        $extractor = WebsitePropertyExtractor::fromMetaScraper(
             MetaScraper::fromString($content)
         );
 
@@ -66,7 +66,7 @@ final class PropertyExtractorTest extends TestCase
     {
         $content = '<meta property="og:description" content="Hey! I\'m Mihails Krasilnikovs, a Software Engineer from Latvia.">';
 
-        $extractor = PropertyExtractor::fromMetaScraper(
+        $extractor = WebsitePropertyExtractor::fromMetaScraper(
             MetaScraper::fromString($content)
         );
 
@@ -80,7 +80,7 @@ final class PropertyExtractorTest extends TestCase
     {
         $content = '<meta property="og:site_name" content="Krasilnikovs">';
 
-        $extractor = PropertyExtractor::fromMetaScraper(
+        $extractor = WebsitePropertyExtractor::fromMetaScraper(
             MetaScraper::fromString($content)
         );
 
@@ -93,7 +93,7 @@ final class PropertyExtractorTest extends TestCase
     #[DataProvider('shouldExtractDeterminerProvider')]
     public function testShouldExtractDeterminer(string $content, Determiner $expected): void
     {
-        $extractor = PropertyExtractor::fromMetaScraper(
+        $extractor = WebsitePropertyExtractor::fromMetaScraper(
             MetaScraper::fromString($content)
         );
 
@@ -105,7 +105,7 @@ final class PropertyExtractorTest extends TestCase
     #[DataProvider('shouldExtractLocaleProvider')]
     public function testShouldExtractLocale(string $content, Locale $expected): void
     {
-        $extractor = PropertyExtractor::fromMetaScraper(
+        $extractor = WebsitePropertyExtractor::fromMetaScraper(
             MetaScraper::fromString($content)
         );
 
@@ -117,7 +117,7 @@ final class PropertyExtractorTest extends TestCase
     #[DataProvider('shouldExtractImagesProvider')]
     public function testShouldExtractImages(string $content, ImageCollection $expected): void
     {
-        $extractor = PropertyExtractor::fromMetaScraper(
+        $extractor = WebsitePropertyExtractor::fromMetaScraper(
             MetaScraper::fromString($content)
         );
 
@@ -126,10 +126,22 @@ final class PropertyExtractorTest extends TestCase
         self::assertEquals($expected, $actual);
     }
 
+    public function testShouldThrowExceptionIfNoImages(): void
+    {
+        $this->expectException(PropertyNotExtractedException::class);
+        $this->expectExceptionMessage('At least one element required for property "og:image"');
+
+        $extractor = WebsitePropertyExtractor::fromMetaScraper(
+            MetaScraper::fromString('')
+        );
+
+        $extractor->images();
+    }
+
     #[DataProvider('shouldExtractAudiosProvider')]
     public function testShouldExtractAudios(string $content, AudioCollection $expected): void
     {
-        $extractor = PropertyExtractor::fromMetaScraper(
+        $extractor = WebsitePropertyExtractor::fromMetaScraper(
             MetaScraper::fromString($content)
         );
 
@@ -141,7 +153,7 @@ final class PropertyExtractorTest extends TestCase
     #[DataProvider('shouldExtractVideosProvider')]
     public function testShouldExtractVideos(string $content, VideoCollection $expected): void
     {
-        $extractor = PropertyExtractor::fromMetaScraper(
+        $extractor = WebsitePropertyExtractor::fromMetaScraper(
             MetaScraper::fromString($content)
         );
 
@@ -149,35 +161,6 @@ final class PropertyExtractorTest extends TestCase
 
         self::assertEquals($expected, $actual);
     }
-
-    public function testShouldExtractMusicAlbum(): void
-    {
-        $content = <<<HTML
-                <meta property="music:release_date" content="2014-11-24">
-                <meta property="music:musician" content="https://lv.wikipedia.org/wiki/Raimonds_Pauls">
-                <meta property="music:song" content="https://open.spotify.com/track/488ppPsbOwN7T26XKuXruh?si=c44f580436ba440a">
-                <meta property="music:song" content="https://open.spotify.com/track/030zL05q4n5QU2TvM5IMaq?si=a0edbb80e9014c8b">
-            HTML;
-
-        $extractor = PropertyExtractor::fromMetaScraper(
-            MetaScraper::fromString($content)
-        );
-
-        $actual = $extractor->musicAlbum();
-
-        $expectedReleaseDate = new DateTimeImmutable('2014-11-24');
-        $expectedMusicians = ['https://lv.wikipedia.org/wiki/Raimonds_Pauls'];
-        $expectedSongs = [
-            'https://open.spotify.com/track/488ppPsbOwN7T26XKuXruh?si=c44f580436ba440a',
-            'https://open.spotify.com/track/030zL05q4n5QU2TvM5IMaq?si=a0edbb80e9014c8b',
-        ];
-
-        self::assertEquals($expectedReleaseDate, $actual->releaseDate());
-        self::assertEquals($expectedMusicians, $actual->musicians());
-        self::assertEquals($expectedSongs, $actual->songs());
-    }
-
-
 
     /**
      * @return array<string, array{content: string, expected: Locale}>
@@ -264,10 +247,6 @@ final class PropertyExtractorTest extends TestCase
                         alt: 'Mihails Krasilnikovs',
                     ),
                 ]),
-            ],
-            'empty' => [
-                'content' => '',
-                'expected' => new ImageCollection([]),
             ],
         ];
     }

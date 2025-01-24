@@ -3,24 +3,24 @@
 namespace Krasilnikovs\Opengraph\Transformer;
 
 use Krasilnikovs\Opengraph\Object\AbstractObject;
-use Krasilnikovs\Opengraph\Object\MusicAlbumObject;
-use Krasilnikovs\Opengraph\Property\Extractor\MusicAlbumPropertyExtractor;
+use Krasilnikovs\Opengraph\Object\MusicSongObject;
+use Krasilnikovs\Opengraph\Property\Extractor\MusicSongPropertyExtractor;
 use Krasilnikovs\Opengraph\Scraper\MetaScraperInterface;
 
-final readonly class MusicAlbumObjectTransformer implements ObjectTransformerInterface
+final readonly class MusicSongObjectTransformer implements ObjectTransformerInterface
 {
     public function supports(MetaScraperInterface $scraper): bool
     {
-        $extractor = MusicAlbumPropertyExtractor::fromMetaScraper($scraper);
+        $extractor = MusicSongPropertyExtractor::fromMetaScraper($scraper);
 
-        return $extractor->type() === MusicAlbumObject::getType();
+        return $extractor->type() === MusicSongObject::getType();
     }
 
     public function toObject(MetaScraperInterface $scraper): AbstractObject
     {
-        $extractor = MusicAlbumPropertyExtractor::fromMetaScraper($scraper);
+        $extractor = MusicSongPropertyExtractor::fromMetaScraper($scraper);
 
-        return new MusicAlbumObject(
+        return new MusicSongObject(
             url:         $extractor->url(),
             title:       $extractor->title(),
             description: $extractor->description(),
@@ -29,9 +29,9 @@ final readonly class MusicAlbumObjectTransformer implements ObjectTransformerInt
             images:      $extractor->images(),
             audios:      $extractor->audios(),
             videos:      $extractor->videos(),
-            releaseDate: $extractor->releaseDate(),
+            duration:    $extractor->duration(),
+            album:       $extractor->album(),
             musicians:   $extractor->musicians(),
-            songs:       $extractor->songs(),
         );
     }
 }

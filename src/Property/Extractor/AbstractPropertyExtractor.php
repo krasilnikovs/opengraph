@@ -8,70 +8,88 @@ use Krasilnikovs\Opengraph\Property\Builder\AudioCollectionBuilder;
 use Krasilnikovs\Opengraph\Property\Builder\ImageCollectionBuilder;
 use Krasilnikovs\Opengraph\Property\Builder\VideoCollectionBuilder;
 use Krasilnikovs\Opengraph\Property\Determiner;
+use Krasilnikovs\Opengraph\Property\Extractor\Exception\PropertyNotExtractedException;
 use Krasilnikovs\Opengraph\Property\Image;
 use Krasilnikovs\Opengraph\Property\ImageCollection;
 use Krasilnikovs\Opengraph\Property\Locale;
-use Krasilnikovs\Opengraph\Property\MusicAlbum;
 use Krasilnikovs\Opengraph\Property\Video;
 use Krasilnikovs\Opengraph\Property\VideoCollection;
 use Krasilnikovs\Opengraph\Scraper\MetaScraperInterface;
 
-final readonly class PropertyExtractor
+abstract readonly class AbstractPropertyExtractor
 {
-    private function __construct(
-        private MetaScraperInterface $scraper,
+    final private function __construct(
+        protected MetaScraperInterface $scraper,
     ) {}
 
-    public static function fromMetaScraper(MetaScraperInterface $scraper): self
+    final public static function fromMetaScraper(MetaScraperInterface $scraper): static
     {
-        return new self($scraper);
+        return new static($scraper);
     }
 
-    public function type(): string
+    final public function type(): string
     {
         return $this->scraper->getContentByName(MetaScraperInterface::TYPE_PROPERTY);
     }
 
-    public function url(): string
+    /**
+     * @throws PropertyNotExtractedException
+     */
+    final public function url(): string
     {
-        return $this->scraper->getContentByName(MetaScraperInterface::URL_PROPERTY);
+        $url = $this->scraper->getContentByName(MetaScraperInterface::URL_PROPERTY);
+
+        if ($url === '') {
+            throw PropertyNotExtractedException::requiredNotEmptyValueForProperty(MetaScraperInterface::URL_PROPERTY);
+        }
+
+        return $url;
     }
 
-    public function title(): string
+    /**
+     * @throws PropertyNotExtractedException
+     */
+    final public function title(): string
     {
-        return $this->scraper->getContentByName(MetaScraperInterface::TITLE_PROPERTY);
+        $title =  $this->scraper->getContentByName(MetaScraperInterface::TITLE_PROPERTY);
+
+        if ($title === '') {
+            throw PropertyNotExtractedException::requiredNotEmptyValueForProperty(MetaScraperInterface::TITLE_PROPERTY);
+        }
+
+        return $title;
     }
 
-    public function description(): string
+    final public function description(): string
     {
         return $this->scraper->getContentByName(MetaScraperInterface::DESCRIPTION_PROPERTY);
     }
 
-    public function siteName(): string
+    final public function siteName(): string
     {
         return $this->scraper->getContentByName(MetaScraperInterface::SITE_NAME_PROPERTY);
     }
 
-    public function determiner(): Determiner
+    final public function determiner(): Determiner
     {
         $value = $this->scraper->getContentByName(MetaScraperInterface::DETERMINER_PROPERTY);
 
         $determiner = Determiner::tryFrom($value);
 
-        if (null === $determiner) {
+        if ($determiner === null) {
             $determiner = Determiner::Empty;
         }
 
         return $determiner;
     }
 
-    public function locale(): Locale
+    final public function locale(): Locale
     {
         $alternates = $this->scraper->getContentsByName(MetaScraperInterface::LOCALE_ALTERNATE_PROPERTY);
 
         $locale = $this->scraper->getContentByName(MetaScraperInterface::LOCALE_PROPERTY);
 
-        if (empty($locale)) {
+        if ($locale === '') {
             $locale = Locale::DEFAULT_LOCALE;
         }
 
@@ -80,8 +98,9 @@ final readonly class PropertyExtractor
 
     /**
      * @return ImageCollection<Image>
+     * @throws PropertyNotExtractedException
      */
-    public function images(): ImageCollection
+    final public function images(): ImageCollection
     {
         $properties = $this->scraper->getContentsByPrefix(MetaScraperInterface::IMAGE_PROPERTY);
 
@@ -108,13 +127,17 @@ final readonly class PropertyExtractor
             };
         }
 
+        if ($builder->isEmpty()) {
+            throw PropertyNotExtractedException::atLeastOneElementRequiredForProperty(MetaScraperInterface::IMAGE_PROPERTY);
+        }
+
         return $builder->build();
     }
 
     /**
      * @return AudioCollection<Audio>
      */
-    public function audios(): AudioCollection
+    final public function audios(): AudioCollection
     {
         $properties = $this->scraper->getContentsByPrefix(MetaScraperInterface::AUDIO_PROPERTY);
 
@@ -140,7 +163,7 @@ final readonly class PropertyExtractor
     /**
      * @return VideoCollection<Video>
      */
-    public function videos(): VideoCollection
+    final public function videos(): VideoCollection
     {
         $properties = $this->scraper->getContentsByPrefix(MetaScraperInterface::VIDEO_PROPERTY);
 
@@ -163,18 +186,5 @@ final readonly class PropertyExtractor
         }
 
         return $builder->build();
-    }
-
-    public function musicAlbum(): MusicAlbum
-    {
-        $releaseDate = $this->scraper->getContentByName(MetaScraperInterface::MUSIC_RELEASE_DATE_PROPERTY);
-        $musicians   = $this->scraper->getContentsByName(MetaScraperInterface::MUSIC_MUSICIAN_PROPERTY);
-        $songs       = $this->scraper->getContentsByName(MetaScraperInterface::MUSIC_SONG_PROPERTY);
-
-        return new MusicAlbum(
-            releaseDate: $releaseDate,
-            musicians: array_values(iterator_to_array($musicians)),
-            songs: array_values(iterator_to_array($songs)),
-        );
     }
 }

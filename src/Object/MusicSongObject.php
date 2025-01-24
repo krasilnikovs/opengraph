@@ -7,23 +7,18 @@ use Krasilnikovs\Opengraph\Property\Determiner;
 use Krasilnikovs\Opengraph\Property\ImageCollection;
 use Krasilnikovs\Opengraph\Property\VideoCollection;
 
-final readonly class MusicAlbumObject extends AbstractObject
+final readonly class MusicSongObject extends AbstractObject
 {
-    public string $releaseDate;
+    public int $duration;
+    public string $album;
 
     /**
-     * @var array<array-key, string>
+     * @var list<string>
      */
     public array $musicians;
 
     /**
-     * @var array<array-key, string>
-     */
-    public array $songs;
-
-    /**
      * @param list<string> $musicians
-     * @param list<string> $songs
      */
     public function __construct(
         string $url,
@@ -34,18 +29,19 @@ final readonly class MusicAlbumObject extends AbstractObject
         ImageCollection $images,
         AudioCollection $audios,
         VideoCollection $videos,
-        string $releaseDate,
+        int $duration,
+        string $album,
         array $musicians,
-        array $songs,
     ) {
-        $this->releaseDate = $releaseDate;
-        $this->musicians   = $musicians;
-        $this->songs       = $songs;
+        $this->duration = $duration;
+        $this->album    = $album;
+        $this->musicians = $musicians;
 
         parent::__construct($url, $title, $description, $siteName, $determiner, $images, $audios, $videos);
     }
+
     public static function getType(): string
     {
-        return 'music.album';
+        return 'music.song';
     }
 }

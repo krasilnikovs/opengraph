@@ -4,10 +4,10 @@ namespace Krasilnikovs\Opengraph\Tests\Transformer;
 
 use Krasilnikovs\Opengraph\Scraper\MetaScraper;
 use Krasilnikovs\Opengraph\Scraper\MetaScraperInterface;
-use Krasilnikovs\Opengraph\Transformer\Exception\TransformationException;
 use Krasilnikovs\Opengraph\Transformer\ObjectTransformerInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 
 abstract class ObjectTransformerTestCase extends TestCase
 {
@@ -41,7 +41,7 @@ abstract class ObjectTransformerTestCase extends TestCase
         string $exceptionMessage,
     ): void
     {
-        $this->expectException(TransformationException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage($exceptionMessage);
 
         $this->transformer->toObject(
