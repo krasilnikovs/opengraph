@@ -36,6 +36,7 @@ interface MetaScraperInterface
     public const string MUSIC_SONG_PROPERTY = 'music:song';
     public const string MUSIC_DURATION_PROPERTY = 'music:duration';
     public const string MUSIC_ALBUM_PROPERTY = 'music:album';
+    public const string MUSIC_CREATOR_PROPERTY = 'music:creator';
 
     public function getContentByName(string $name): string;
 

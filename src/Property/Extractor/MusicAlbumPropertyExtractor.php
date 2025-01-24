@@ -7,8 +7,10 @@ use DateTimeInterface;
 use Krasilnikovs\Opengraph\Scraper\MetaScraperInterface;
 use Throwable;
 
-final readonly class MusicAlbumPropertyExtractor extends AbstractPropertyExtractor
+final readonly class MusicAlbumPropertyExtractor
 {
+    use PropertyExtractor;
+
     public function releaseDate(): string
     {
         $releaseDate = $this->scraper->getContentByName(MetaScraperInterface::MUSIC_RELEASE_DATE_PROPERTY);

@@ -17,10 +17,10 @@ final class TransformationException extends RuntimeException
         return new self(sprintf('Not found transformer for type "%s"', $type));
     }
 
-    public static function transformationError(Throwable $throwable): self
+    public static function notTransformedToObject(Throwable $throwable): self
     {
         return new self(
-            message: sprintf('Transformation error: %s', $throwable->getMessage()),
+            message: sprintf('Not Transformed to object: %s', $throwable->getMessage()),
             previous: $throwable
         );
     }

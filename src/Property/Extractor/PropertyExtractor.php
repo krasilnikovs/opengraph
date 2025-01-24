@@ -16,11 +16,13 @@ use Krasilnikovs\Opengraph\Property\Video;
 use Krasilnikovs\Opengraph\Property\VideoCollection;
 use Krasilnikovs\Opengraph\Scraper\MetaScraperInterface;
 
-abstract readonly class AbstractPropertyExtractor
+trait PropertyExtractor
 {
     final private function __construct(
-        protected MetaScraperInterface $scraper,
-    ) {}
+        protected readonly MetaScraperInterface $scraper,
+    )
+    {
+    }
 
     final public static function fromMetaScraper(MetaScraperInterface $scraper): static
     {
@@ -51,7 +53,7 @@ abstract readonly class AbstractPropertyExtractor
      */
     final public function title(): string
     {
-        $title =  $this->scraper->getContentByName(MetaScraperInterface::TITLE_PROPERTY);
+        $title = $this->scraper->getContentByName(MetaScraperInterface::TITLE_PROPERTY);
 
         if ($title === '') {
             throw PropertyNotExtractedException::requiredNotEmptyValueForProperty(MetaScraperInterface::TITLE_PROPERTY);
@@ -117,13 +119,13 @@ abstract readonly class AbstractPropertyExtractor
             }
 
             $builder = match ($property) {
-                MetaScraperInterface::IMAGE_PROPERTY            => $builder->withUrl($content),
+                MetaScraperInterface::IMAGE_PROPERTY => $builder->withUrl($content),
                 MetaScraperInterface::IMAGE_SECURE_URL_PROPERTY => $builder->withSecureUrl($content),
-                MetaScraperInterface::IMAGE_TYPE_PROPERTY       => $builder->withType($content),
-                MetaScraperInterface::IMAGE_WIDTH_PROPERTY      => $builder->withWidth($content),
-                MetaScraperInterface::IMAGE_HEIGHT_PROPERTY     => $builder->withHeight($content),
-                MetaScraperInterface::IMAGE_ALT_PROPERTY        => $builder->withAlt($content),
-                default                                         => $builder,
+                MetaScraperInterface::IMAGE_TYPE_PROPERTY => $builder->withType($content),
+                MetaScraperInterface::IMAGE_WIDTH_PROPERTY => $builder->withWidth($content),
+                MetaScraperInterface::IMAGE_HEIGHT_PROPERTY => $builder->withHeight($content),
+                MetaScraperInterface::IMAGE_ALT_PROPERTY => $builder->withAlt($content),
+                default => $builder,
             };
         }
 
@@ -150,10 +152,10 @@ abstract readonly class AbstractPropertyExtractor
             }
 
             $builder = match ($property) {
-                MetaScraperInterface::AUDIO_PROPERTY            => $builder->withUrl($content),
+                MetaScraperInterface::AUDIO_PROPERTY => $builder->withUrl($content),
                 MetaScraperInterface::AUDIO_SECURE_URL_PROPERTY => $builder->withSecureUrl($content),
-                MetaScraperInterface::AUDIO_TYPE_PROPERTY       => $builder->withType($content),
-                default                                         => $builder,
+                MetaScraperInterface::AUDIO_TYPE_PROPERTY => $builder->withType($content),
+                default => $builder,
             };
         }
 
@@ -176,12 +178,12 @@ abstract readonly class AbstractPropertyExtractor
             }
 
             $builder = match ($property) {
-                MetaScraperInterface::VIDEO_PROPERTY            => $builder->withUrl($content),
+                MetaScraperInterface::VIDEO_PROPERTY => $builder->withUrl($content),
                 MetaScraperInterface::VIDEO_SECURE_URL_PROPERTY => $builder->withSecureUrl($content),
-                MetaScraperInterface::VIDEO_TYPE_PROPERTY       => $builder->withType($content),
-                MetaScraperInterface::VIDEO_WIDTH_PROPERTY      => $builder->withWidth($content),
-                MetaScraperInterface::VIDEO_HEIGHT_PROPERTY     => $builder->withHeight($content),
-                default                                         => $builder,
+                MetaScraperInterface::VIDEO_TYPE_PROPERTY => $builder->withType($content),
+                MetaScraperInterface::VIDEO_WIDTH_PROPERTY => $builder->withWidth($content),
+                MetaScraperInterface::VIDEO_HEIGHT_PROPERTY => $builder->withHeight($content),
+                default => $builder,
             };
         }
 

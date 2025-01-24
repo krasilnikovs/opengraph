@@ -40,7 +40,7 @@ final readonly class ChainObjectTransformer implements ObjectTransformerInterfac
                 try {
                     return $transformer->toObject($scraper);
                 } catch (Throwable $exception) {
-                    throw TransformationException::transformationError($exception);
+                    throw TransformationException::notTransformedToObject($exception);
                 }
             }
         }

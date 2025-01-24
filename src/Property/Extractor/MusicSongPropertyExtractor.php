@@ -4,8 +4,10 @@ namespace Krasilnikovs\Opengraph\Property\Extractor;
 
 use Krasilnikovs\Opengraph\Scraper\MetaScraperInterface;
 
-final readonly class MusicSongPropertyExtractor extends AbstractPropertyExtractor
+final readonly class MusicSongPropertyExtractor
 {
+    use PropertyExtractor;
+
     public function duration(): int
     {
         $duration = $this->scraper->getContentByName(MetaScraperInterface::MUSIC_DURATION_PROPERTY);

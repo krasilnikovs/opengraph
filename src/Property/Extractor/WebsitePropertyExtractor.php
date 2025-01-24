@@ -2,7 +2,8 @@
 
 namespace Krasilnikovs\Opengraph\Property\Extractor;
 
-final readonly class WebsitePropertyExtractor extends AbstractPropertyExtractor
+final readonly class WebsitePropertyExtractor
 {
+    use PropertyExtractor;
 
 }
