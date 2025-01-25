@@ -4,6 +4,7 @@ namespace Krasilnikovs\Opengraph\Tests\Transformer;
 
 use Krasilnikovs\Opengraph\Object\WebsiteObject;
 use Krasilnikovs\Opengraph\Transformer\ChainObjectTransformer;
+use Krasilnikovs\Opengraph\Transformer\Exception\TransformationException;
 use Krasilnikovs\Opengraph\Transformer\ObjectTransformerInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
 
@@ -41,6 +42,7 @@ final class ChainObjectTransformerTest extends ObjectTransformerTestCase
         return [
             'no-handler' => [
                 'content' => '<meta property="og:type" content="custom-website">',
+                'exceptionClass' => TransformationException::class,
                 'exceptionMessage' => 'Not found transformer for type "custom-website"',
             ],
         ];

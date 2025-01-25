@@ -7,7 +7,7 @@ use Krasilnikovs\Opengraph\Scraper\MetaScraperInterface;
 use Krasilnikovs\Opengraph\Transformer\ObjectTransformerInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use RuntimeException;
+use Throwable;
 
 abstract class ObjectTransformerTestCase extends TestCase
 {
@@ -35,13 +35,17 @@ abstract class ObjectTransformerTestCase extends TestCase
         self::assertInstanceOf(static::getObjectClass(), $object);
     }
 
+    /**
+     * @param class-string<Throwable> $exceptionClass
+     */
     #[DataProvider('shouldThrowExceptionDuringTransformToObjectProvider')]
     final public function testShouldThrowExceptionDuringTransformToObject(
         string $content,
+        string $exceptionClass,
         string $exceptionMessage,
     ): void
     {
-        $this->expectException(RuntimeException::class);
+        $this->expectException($exceptionClass);
         $this->expectExceptionMessage($exceptionMessage);
 
         $this->transformer->toObject(
@@ -60,6 +64,7 @@ abstract class ObjectTransformerTestCase extends TestCase
     /**
      * @return array<string, array{
      *     content: string,
+     *     exceptionClass: class-string<\Throwable>,
      *     exceptionMessage: string,
      * }>
      */

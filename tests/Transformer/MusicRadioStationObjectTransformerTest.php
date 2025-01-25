@@ -3,6 +3,7 @@
 namespace Krasilnikovs\Opengraph\Tests\Transformer;
 
 use Krasilnikovs\Opengraph\Object\MusicRadioStationObject;
+use Krasilnikovs\Opengraph\Property\Extractor\Exception\PropertyNotExtractedException;
 use Krasilnikovs\Opengraph\Transformer\MusicRadioStationObjectTransformer;
 use Krasilnikovs\Opengraph\Transformer\ObjectTransformerInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -45,6 +46,7 @@ final class MusicRadioStationObjectTransformerTest extends ObjectTransformerTest
                         <meta property="og:title" content="Krasilnikovs Homepage" />
                         <meta property="og:image" content="https://krasilnikovs.lv/static/me.webp" />
                     HTML,
+                'exceptionClass' => PropertyNotExtractedException::class,
                 'exceptionMessage' => 'Required not empty value for property "og:url"',
             ],
             'with-empty-title' => [
@@ -53,6 +55,7 @@ final class MusicRadioStationObjectTransformerTest extends ObjectTransformerTest
                         <meta property="og:title" content="" />
                         <meta property="og:image" content="https://krasilnikovs.lv/static/me.webp" />
                     HTML,
+                'exceptionClass' => PropertyNotExtractedException::class,
                 'exceptionMessage' => 'Required not empty value for property "og:title"',
             ],
             'with-empty-image' => [
@@ -61,6 +64,7 @@ final class MusicRadioStationObjectTransformerTest extends ObjectTransformerTest
                         <meta property="og:title" content="Krasilnikovs Homepage" />
                         <meta property="og:image" content="" />
                     HTML,
+                'exceptionClass' => PropertyNotExtractedException::class,
                 'exceptionMessage' => 'At least one element required for property "og:image"',
             ],
         ];

@@ -10,18 +10,18 @@ use Krasilnikovs\Opengraph\Property\VideoCollection;
 
 abstract readonly class AbstractObject
 {
-    public string $type;
-    public Url $url;
-    public string $title;
-    public string $description;
-    public string $siteName;
-    public Determiner $determiner;
+    public string          $type;
+    public Url             $url;
+    public string          $title;
+    public string          $description;
+    public string          $siteName;
+    public Determiner      $determiner;
     public ImageCollection $images;
     public AudioCollection $audios;
     public VideoCollection $videos;
 
     public function __construct(
-        Url          $url,
+        Url             $url,
         string          $title,
         string          $description,
         string          $siteName,

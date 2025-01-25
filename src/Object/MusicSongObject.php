@@ -11,25 +11,25 @@ use Krasilnikovs\Opengraph\Property\VideoCollection;
 
 final readonly class MusicSongObject extends AbstractObject
 {
-    public int $duration;
-    public Url $album;
+    public int           $duration;
+    public Url           $album;
     public UrlCollection $musicians;
 
     public function __construct(
-        Url $url,
-        string $title,
-        string $description,
-        string $siteName,
-        Determiner $determiner,
+        Url             $url,
+        string          $title,
+        string          $description,
+        string          $siteName,
+        Determiner      $determiner,
         ImageCollection $images,
         AudioCollection $audios,
         VideoCollection $videos,
-        int $duration,
-        Url $album,
-        UrlCollection $musicians,
+        int             $duration,
+        Url             $album,
+        UrlCollection   $musicians,
     ) {
-        $this->duration = $duration;
-        $this->album    = $album;
+        $this->duration  = $duration;
+        $this->album     = $album;
         $this->musicians = $musicians;
 
         parent::__construct($url, $title, $description, $siteName, $determiner, $images, $audios, $videos);

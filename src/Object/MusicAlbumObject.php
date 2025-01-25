@@ -13,21 +13,21 @@ use Krasilnikovs\Opengraph\Property\VideoCollection;
 final readonly class MusicAlbumObject extends AbstractObject
 {
     public ?DateTimeImmutable $releaseDate;
-    public UrlCollection $musicians;
-    public UrlCollection $songs;
+    public UrlCollection      $musicians;
+    public UrlCollection      $songs;
 
     public function __construct(
-        Url $url,
-        string $title,
-        string $description,
-        string $siteName,
-        Determiner $determiner,
-        ImageCollection $images,
-        AudioCollection $audios,
-        VideoCollection $videos,
+        Url                $url,
+        string             $title,
+        string             $description,
+        string             $siteName,
+        Determiner         $determiner,
+        ImageCollection    $images,
+        AudioCollection    $audios,
+        VideoCollection    $videos,
         ?DateTimeImmutable $releaseDate,
-        UrlCollection $musicians,
-        UrlCollection $songs,
+        UrlCollection      $musicians,
+        UrlCollection      $songs,
     ) {
         $this->releaseDate = $releaseDate;
         $this->musicians   = $musicians;

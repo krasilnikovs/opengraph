@@ -20,7 +20,7 @@ final class TransformationException extends RuntimeException
     public static function notTransformedToObject(Throwable $throwable): self
     {
         return new self(
-            message: sprintf('Not Transformed to object: %s', $throwable->getMessage()),
+            message: sprintf('Not transformed to object: %s', $throwable->getMessage()),
             previous: $throwable
         );
     }

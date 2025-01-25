@@ -5,5 +5,4 @@ namespace Krasilnikovs\Opengraph\Property\Extractor;
 final readonly class WebsitePropertyExtractor
 {
     use PropertyExtractor;
-
 }
