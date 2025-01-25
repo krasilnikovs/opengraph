@@ -2,8 +2,8 @@
 
 namespace Krasilnikovs\Opengraph\Tests\Transformer;
 
+use Krasilnikovs\Opengraph\Extractor\Exception\PropertyNotExtractedException;
 use Krasilnikovs\Opengraph\Object\MusicSongObject;
-use Krasilnikovs\Opengraph\Property\Extractor\Exception\PropertyNotExtractedException;
 use Krasilnikovs\Opengraph\Transformer\MusicSongObjectTransformer;
 use Krasilnikovs\Opengraph\Transformer\ObjectTransformerInterface;
 use PHPUnit\Framework\Attributes\CoversClass;

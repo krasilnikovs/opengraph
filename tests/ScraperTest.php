@@ -1,19 +1,19 @@
 <?php declare(strict_types=1);
 
-namespace Krasilnikovs\Opengraph\Tests\Scraper;
+namespace Krasilnikovs\Opengraph\Tests;
 
-use Krasilnikovs\Opengraph\Scraper\MetaScraper;
+use Krasilnikovs\Opengraph\Scraper;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(MetaScraper::class)]
-final class MetaScraperTest extends TestCase
+#[CoversClass(Scraper::class)]
+final class ScraperTest extends TestCase
 {
     #[DataProvider('getContentByNameProvider')]
     public function testShouldGetContentByName(string $content, string $propertyName, string $expected): void
     {
-        $scraper = MetaScraper::fromString($content);
+        $scraper = Scraper::fromString($content);
 
         $actual = $scraper->getContentByName($propertyName);
 
@@ -27,7 +27,7 @@ final class MetaScraperTest extends TestCase
     #[DataProvider('getContentsByNameProvider')]
     public function testShouldGetContentsByName(string $content, string $propertyName, iterable $expected): void
     {
-        $scraper = MetaScraper::fromString($content);
+        $scraper = Scraper::fromString($content);
 
         $actual = iterator_to_array($scraper->getContentsByName($propertyName));
 
@@ -40,7 +40,7 @@ final class MetaScraperTest extends TestCase
     #[DataProvider('getContentsByPrefixProvider')]
     public function testShouldGetContentsByPrefix(string $content, string $propertyName, array $expected): void
     {
-        $scraper = MetaScraper::fromString($content);
+        $scraper = Scraper::fromString($content);
 
         $actual = $scraper->getContentsByPrefix($propertyName);
 

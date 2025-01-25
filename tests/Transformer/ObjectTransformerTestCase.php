@@ -2,8 +2,7 @@
 
 namespace Krasilnikovs\Opengraph\Tests\Transformer;
 
-use Krasilnikovs\Opengraph\Scraper\MetaScraper;
-use Krasilnikovs\Opengraph\Scraper\MetaScraperInterface;
+use Krasilnikovs\Opengraph\Scraper;
 use Krasilnikovs\Opengraph\Transformer\ObjectTransformerInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
@@ -21,15 +20,26 @@ abstract class ObjectTransformerTestCase extends TestCase
     #[DataProvider('supportsProvider')]
     final public function testSupports(string $content, bool $expected): void
     {
-        $scraper = MetaScraper::fromString($content);
+        $scraper = Scraper::fromString($content);
 
         self::assertEquals($expected, $this->transformer->supports($scraper));
     }
 
     final public function testShouldTransformToObject(): void
     {
+        $content = <<<HTML
+                <meta property="og:type" content="website">
+                <meta property="og:url" content="https://krasilnikovs.lv">
+                <meta property="og:title" content="Krasilnikovs Homepage">    
+                <meta property="og:description" content="Krasilnikovs Homepage">
+                <meta property="og:determiner" content="auto">
+                <meta property="og:image" content="https://krasilnikovs.lv/static/me.webp">
+                <meta property="og:locale" content="lv">
+                <meta property="og:locale:alternate" content="ru">
+            HTML;
+
         $object = $this->transformer->toObject(
-            self::getScraper()
+            Scraper::fromString($content)
         );
 
         self::assertInstanceOf(static::getObjectClass(), $object);
@@ -49,7 +59,7 @@ abstract class ObjectTransformerTestCase extends TestCase
         $this->expectExceptionMessage($exceptionMessage);
 
         $this->transformer->toObject(
-            MetaScraper::fromString($content)
+            Scraper::fromString($content)
         );
     }
 
@@ -76,36 +86,4 @@ abstract class ObjectTransformerTestCase extends TestCase
      * @return class-string
      */
     abstract protected static function getObjectClass(): string;
-    final protected static function getScraper(): MetaScraperInterface
-    {
-        return new class implements MetaScraperInterface {
-            public function getContentByName(string $name): string
-            {
-                return match ($name) {
-                    MetaScraperInterface::TYPE_PROPERTY => 'website',
-                    MetaScraperInterface::URL_PROPERTY => 'https://krasilnikovs.lv',
-                    MetaScraperInterface::TITLE_PROPERTY => 'Krasilnikovs Homepage',
-                    MetaScraperInterface::DESCRIPTION_PROPERTY => 'Krasilnikovs Homepage',
-                    MetaScraperInterface::DETERMINER_PROPERTY => 'auto',
-                    MetaScraperInterface::LOCALE_PROPERTY => 'lv',
-                    default => '',
-                };
-            }
-
-            public function getContentsByName(string $name): iterable
-            {
-                return match ($name) {
-                    MetaScraperInterface::LOCALE_ALTERNATE_PROPERTY => ['ru'],
-                    default => [],
-                };
-            }
-
-            public function getContentsByPrefix(string $prefix): iterable
-            {
-                if (str_contains($prefix, self::IMAGE_PROPERTY)) {
-                    yield [MetaScraperInterface::IMAGE_PROPERTY, 'https://krasilnikovs.lv/static/me.webp'];
-                }
-            }
-        };
-    }
 }
