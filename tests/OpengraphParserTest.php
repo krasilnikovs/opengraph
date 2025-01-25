@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Krasilnikovs\tests;
+namespace Krasilnikovs\Opengraph\Tests;
 
 use Krasilnikovs\Opengraph\Object\AbstractObject;
 use Krasilnikovs\Opengraph\OpengraphParser;
@@ -9,7 +9,7 @@ use Krasilnikovs\Opengraph\Property\Determiner;
 use Krasilnikovs\Opengraph\Property\ImageCollection;
 use Krasilnikovs\Opengraph\Property\Url;
 use Krasilnikovs\Opengraph\Property\VideoCollection;
-use Krasilnikovs\Opengraph\Scraper\MetaScraperInterface;
+use Krasilnikovs\Opengraph\Scraper;
 use Krasilnikovs\Opengraph\Transformer\ObjectTransformerInterface;
 use PHPUnit\Framework\TestCase;
 
@@ -49,12 +49,12 @@ final class OpengraphParserTest extends TestCase
     public function getTransformer(): ObjectTransformerInterface
     {
         return new class implements ObjectTransformerInterface {
-            public function supports(MetaScraperInterface $scraper): bool
+            public function supports(Scraper $scraper): bool
             {
                 return true;
             }
 
-            public function toObject(MetaScraperInterface $scraper): AbstractObject
+            public function toObject(Scraper $scraper): AbstractObject
             {
                 return new readonly class extends AbstractObject
                 {
@@ -84,12 +84,12 @@ final class OpengraphParserTest extends TestCase
     private function getFallbackTransformer(): ObjectTransformerInterface
     {
         return new class() implements ObjectTransformerInterface {
-            public function supports(MetaScraperInterface $scraper): bool
+            public function supports(Scraper $scraper): bool
             {
                 return true;
             }
 
-            public function toObject(MetaScraperInterface $scraper): AbstractObject
+            public function toObject(Scraper $scraper): AbstractObject
             {
                 return new readonly class extends AbstractObject
                 {

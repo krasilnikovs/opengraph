@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Krasilnikovs\Opengraph\Tests\Property\Extractor;
+namespace Krasilnikovs\Opengraph\Tests\Extractor;
 
-use Krasilnikovs\Opengraph\Property\Extractor\MusicRadioStationExtractor;
+use Krasilnikovs\Opengraph\Extractor\MusicRadioStationExtractor;
 use Krasilnikovs\Opengraph\Property\Url;
 use Krasilnikovs\Opengraph\Property\UrlCollection;
-use Krasilnikovs\Opengraph\Scraper\MetaScraper;
+use Krasilnikovs\Opengraph\Scraper;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -22,7 +22,7 @@ final class MusicRadioStationExtractorTest extends TestCase
             HTML;
 
         $this->extractor = MusicRadioStationExtractor::fromMetaScraper(
-            MetaScraper::fromString($html)
+            Scraper::fromString($html)
         );
     }
 

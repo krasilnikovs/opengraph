@@ -1,8 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Krasilnikovs\Opengraph\Scraper;
+namespace Krasilnikovs\Opengraph;
 
-interface MetaScraperInterface
+use Dom\HTMLDocument;
+use function current;
+use function iterator_to_array;
+use function sprintf;
+
+final readonly class Scraper
 {
     public const string TYPE_PROPERTY = 'og:type';
     public const string URL_PROPERTY = 'og:url';
@@ -38,15 +43,48 @@ interface MetaScraperInterface
     public const string MUSIC_ALBUM_PROPERTY = 'music:album';
     public const string MUSIC_CREATOR_PROPERTY = 'music:creator';
 
-    public function getContentByName(string $name): string;
+    private HTMLDocument $document;
+
+    public function __construct(string $content)
+    {
+        $this->document = @HTMLDocument::createFromString($content);
+    }
+
+    public static function fromString(string $content): self
+    {
+        return new self($content);
+    }
+
+    public function getContentByName(string $name): string
+    {
+        $properties = $this->getContentsByName($name);
+
+        return (string) current(iterator_to_array($properties));
+    }
 
     /**
      * @return iterable<string>
      */
-    public function getContentsByName(string $name): iterable;
+    public function getContentsByName(string $name): iterable
+    {
+        $query = sprintf('meta[property="%s"]', $name);
+        $elements = $this->document->querySelectorAll($query);
+
+        foreach ($elements as $element) {
+            yield (string) $element->getAttribute('content');
+        }
+    }
 
     /**
      * @return iterable<array{string, string}>
      */
-    public function getContentsByPrefix(string $prefix): iterable;
+    public function getContentsByPrefix(string $prefix): iterable
+    {
+        $query = sprintf('meta[property^="%s"]', $prefix);
+        $elements = $this->document->querySelectorAll($query);
+
+        foreach ($elements as $element) {
+            yield [(string) $element->getAttribute('property'), (string) $element->getAttribute('content')];
+        }
+    }
 }

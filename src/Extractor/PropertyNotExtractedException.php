@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 
-namespace Krasilnikovs\Opengraph\Property\Extractor\Exception;
+namespace Krasilnikovs\Opengraph\Extractor;
+
 use RuntimeException;
 
 final class PropertyNotExtractedException extends RuntimeException

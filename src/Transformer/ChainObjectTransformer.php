@@ -3,9 +3,7 @@
 namespace Krasilnikovs\Opengraph\Transformer;
 
 use Krasilnikovs\Opengraph\Object\AbstractObject;
-use Krasilnikovs\Opengraph\Property\Extractor\WebsitePropertyExtractor as DefaultExtractor;
-use Krasilnikovs\Opengraph\Scraper\MetaScraperInterface;
-use Krasilnikovs\Opengraph\Transformer\Exception\TransformationException;
+use Krasilnikovs\Opengraph\Scraper;
 use Throwable;
 use function array_any;
 use function iterator_to_array;
@@ -25,7 +23,7 @@ final readonly class ChainObjectTransformer implements ObjectTransformerInterfac
     ]) {
         $this->transformers = $transformers;
     }
-    public function supports(MetaScraperInterface $scraper): bool
+    public function supports(Scraper $scraper): bool
     {
         return array_any(
             iterator_to_array($this->transformers),
@@ -33,7 +31,7 @@ final readonly class ChainObjectTransformer implements ObjectTransformerInterfac
         );
     }
 
-    public function toObject(MetaScraperInterface $scraper): AbstractObject
+    public function toObject(Scraper $scraper): AbstractObject
     {
         foreach ($this->transformers as $transformer) {
             if ($transformer->supports($scraper)) {
@@ -45,8 +43,8 @@ final readonly class ChainObjectTransformer implements ObjectTransformerInterfac
             }
         }
 
-        $extractor = DefaultExtractor::fromMetaScraper($scraper);
-
-        throw TransformationException::notFoundSupportedTransformerForType($extractor->type());
+        throw TransformationException::notFoundSupportedTransformerForType(
+            $scraper->getContentByName(Scraper::TYPE_PROPERTY)
+        );
     }
 }

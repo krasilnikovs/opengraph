@@ -3,7 +3,6 @@
 namespace Krasilnikovs\Opengraph;
 
 use Krasilnikovs\Opengraph\Object\AbstractObject;
-use Krasilnikovs\Opengraph\Scraper\MetaScraper;
 use Krasilnikovs\Opengraph\Transformer\ChainObjectTransformer;
 use Krasilnikovs\Opengraph\Transformer\ObjectTransformerInterface;
 use Krasilnikovs\Opengraph\Transformer\WebsiteObjectTransformer;
@@ -24,7 +23,7 @@ final readonly class OpengraphParser
 
     public function parse(string $content): AbstractObject
     {
-        $scraper = MetaScraper::fromString($content);
+        $scraper = Scraper::fromString($content);
 
         if (! $this->transformer->supports($scraper)) {
             return $this->fallback->toObject($scraper);

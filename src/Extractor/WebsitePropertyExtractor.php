@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Krasilnikovs\Opengraph\Property\Extractor;
+namespace Krasilnikovs\Opengraph\Extractor;
 
 final readonly class WebsitePropertyExtractor
 {

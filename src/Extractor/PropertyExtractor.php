@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Krasilnikovs\Opengraph\Property\Extractor;
+namespace Krasilnikovs\Opengraph\Extractor;
 
 use Krasilnikovs\Opengraph\Property\Audio;
 use Krasilnikovs\Opengraph\Property\AudioCollection;
@@ -8,31 +8,30 @@ use Krasilnikovs\Opengraph\Property\Builder\AudioCollectionBuilder;
 use Krasilnikovs\Opengraph\Property\Builder\ImageCollectionBuilder;
 use Krasilnikovs\Opengraph\Property\Builder\VideoCollectionBuilder;
 use Krasilnikovs\Opengraph\Property\Determiner;
-use Krasilnikovs\Opengraph\Property\Extractor\Exception\PropertyNotExtractedException;
 use Krasilnikovs\Opengraph\Property\Image;
 use Krasilnikovs\Opengraph\Property\ImageCollection;
 use Krasilnikovs\Opengraph\Property\Locale;
 use Krasilnikovs\Opengraph\Property\Url;
 use Krasilnikovs\Opengraph\Property\Video;
 use Krasilnikovs\Opengraph\Property\VideoCollection;
-use Krasilnikovs\Opengraph\Scraper\MetaScraperInterface;
+use Krasilnikovs\Opengraph\Scraper;
 
 trait PropertyExtractor
 {
     final public function __construct(
-        protected readonly MetaScraperInterface $scraper,
+        protected readonly Scraper $scraper,
     )
     {
     }
 
-    final public static function fromMetaScraper(MetaScraperInterface $scraper): static
+    final public static function fromMetaScraper(Scraper $scraper): static
     {
         return new static($scraper);
     }
 
     final public function type(): string
     {
-        return $this->scraper->getContentByName(MetaScraperInterface::TYPE_PROPERTY);
+        return $this->scraper->getContentByName(Scraper::TYPE_PROPERTY);
     }
 
     /**
@@ -40,10 +39,10 @@ trait PropertyExtractor
      */
     final public function url(): Url
     {
-        $url = $this->scraper->getContentByName(MetaScraperInterface::URL_PROPERTY);
+        $url = $this->scraper->getContentByName(Scraper::URL_PROPERTY);
 
         if ($url === '') {
-            throw PropertyNotExtractedException::requiredNotEmptyValueForProperty(MetaScraperInterface::URL_PROPERTY);
+            throw PropertyNotExtractedException::requiredNotEmptyValueForProperty(Scraper::URL_PROPERTY);
         }
 
         return Url::fromString($url);
@@ -54,10 +53,10 @@ trait PropertyExtractor
      */
     final public function title(): string
     {
-        $title = $this->scraper->getContentByName(MetaScraperInterface::TITLE_PROPERTY);
+        $title = $this->scraper->getContentByName(Scraper::TITLE_PROPERTY);
 
         if ($title === '') {
-            throw PropertyNotExtractedException::requiredNotEmptyValueForProperty(MetaScraperInterface::TITLE_PROPERTY);
+            throw PropertyNotExtractedException::requiredNotEmptyValueForProperty(Scraper::TITLE_PROPERTY);
         }
 
         return $title;
@@ -65,17 +64,17 @@ trait PropertyExtractor
 
     final public function description(): string
     {
-        return $this->scraper->getContentByName(MetaScraperInterface::DESCRIPTION_PROPERTY);
+        return $this->scraper->getContentByName(Scraper::DESCRIPTION_PROPERTY);
     }
 
     final public function siteName(): string
     {
-        return $this->scraper->getContentByName(MetaScraperInterface::SITE_NAME_PROPERTY);
+        return $this->scraper->getContentByName(Scraper::SITE_NAME_PROPERTY);
     }
 
     final public function determiner(): Determiner
     {
-        $value = $this->scraper->getContentByName(MetaScraperInterface::DETERMINER_PROPERTY);
+        $value = $this->scraper->getContentByName(Scraper::DETERMINER_PROPERTY);
 
         $determiner = Determiner::tryFrom($value);
 
@@ -88,9 +87,9 @@ trait PropertyExtractor
 
     final public function locale(): Locale
     {
-        $alternates = $this->scraper->getContentsByName(MetaScraperInterface::LOCALE_ALTERNATE_PROPERTY);
+        $alternates = $this->scraper->getContentsByName(Scraper::LOCALE_ALTERNATE_PROPERTY);
 
-        $locale = $this->scraper->getContentByName(MetaScraperInterface::LOCALE_PROPERTY);
+        $locale = $this->scraper->getContentByName(Scraper::LOCALE_PROPERTY);
 
         if ($locale === '') {
             $locale = Locale::DEFAULT_LOCALE;
@@ -105,7 +104,7 @@ trait PropertyExtractor
      */
     final public function images(): ImageCollection
     {
-        $properties = $this->scraper->getContentsByPrefix(MetaScraperInterface::IMAGE_PROPERTY);
+        $properties = $this->scraper->getContentsByPrefix(Scraper::IMAGE_PROPERTY);
 
         $builder = ImageCollectionBuilder::new();
 
@@ -115,23 +114,23 @@ trait PropertyExtractor
                 continue;
             }
 
-            if ($property === MetaScraperInterface::IMAGE_PROPERTY) {
+            if ($property === Scraper::IMAGE_PROPERTY) {
                 $builder = $builder->append();
             }
 
             $builder = match ($property) {
-                MetaScraperInterface::IMAGE_PROPERTY => $builder->withUrl($content),
-                MetaScraperInterface::IMAGE_SECURE_URL_PROPERTY => $builder->withSecureUrl($content),
-                MetaScraperInterface::IMAGE_TYPE_PROPERTY => $builder->withType($content),
-                MetaScraperInterface::IMAGE_WIDTH_PROPERTY => $builder->withWidth($content),
-                MetaScraperInterface::IMAGE_HEIGHT_PROPERTY => $builder->withHeight($content),
-                MetaScraperInterface::IMAGE_ALT_PROPERTY => $builder->withAlt($content),
+                Scraper::IMAGE_PROPERTY => $builder->withUrl($content),
+                Scraper::IMAGE_SECURE_URL_PROPERTY => $builder->withSecureUrl($content),
+                Scraper::IMAGE_TYPE_PROPERTY => $builder->withType($content),
+                Scraper::IMAGE_WIDTH_PROPERTY => $builder->withWidth($content),
+                Scraper::IMAGE_HEIGHT_PROPERTY => $builder->withHeight($content),
+                Scraper::IMAGE_ALT_PROPERTY => $builder->withAlt($content),
                 default => $builder,
             };
         }
 
         if ($builder->isEmpty()) {
-            throw PropertyNotExtractedException::atLeastOneElementRequiredForProperty(MetaScraperInterface::IMAGE_PROPERTY);
+            throw PropertyNotExtractedException::atLeastOneElementRequiredForProperty(Scraper::IMAGE_PROPERTY);
         }
 
         return $builder->build();
@@ -142,20 +141,20 @@ trait PropertyExtractor
      */
     final public function audios(): AudioCollection
     {
-        $properties = $this->scraper->getContentsByPrefix(MetaScraperInterface::AUDIO_PROPERTY);
+        $properties = $this->scraper->getContentsByPrefix(Scraper::AUDIO_PROPERTY);
 
         $builder = AudioCollectionBuilder::new();
 
         foreach ($properties as [$property, $content]) {
 
-            if ($property === MetaScraperInterface::AUDIO_PROPERTY) {
+            if ($property === Scraper::AUDIO_PROPERTY) {
                 $builder = $builder->append();
             }
 
             $builder = match ($property) {
-                MetaScraperInterface::AUDIO_PROPERTY => $builder->withUrl($content),
-                MetaScraperInterface::AUDIO_SECURE_URL_PROPERTY => $builder->withSecureUrl($content),
-                MetaScraperInterface::AUDIO_TYPE_PROPERTY => $builder->withType($content),
+                Scraper::AUDIO_PROPERTY => $builder->withUrl($content),
+                Scraper::AUDIO_SECURE_URL_PROPERTY => $builder->withSecureUrl($content),
+                Scraper::AUDIO_TYPE_PROPERTY => $builder->withType($content),
                 default => $builder,
             };
         }
@@ -168,22 +167,22 @@ trait PropertyExtractor
      */
     final public function videos(): VideoCollection
     {
-        $properties = $this->scraper->getContentsByPrefix(MetaScraperInterface::VIDEO_PROPERTY);
+        $properties = $this->scraper->getContentsByPrefix(Scraper::VIDEO_PROPERTY);
 
         $builder = VideoCollectionBuilder::new();
 
         foreach ($properties as [$property, $content]) {
 
-            if ($property === MetaScraperInterface::VIDEO_PROPERTY) {
+            if ($property === Scraper::VIDEO_PROPERTY) {
                 $builder = $builder->append();
             }
 
             $builder = match ($property) {
-                MetaScraperInterface::VIDEO_PROPERTY => $builder->withUrl($content),
-                MetaScraperInterface::VIDEO_SECURE_URL_PROPERTY => $builder->withSecureUrl($content),
-                MetaScraperInterface::VIDEO_TYPE_PROPERTY => $builder->withType($content),
-                MetaScraperInterface::VIDEO_WIDTH_PROPERTY => $builder->withWidth($content),
-                MetaScraperInterface::VIDEO_HEIGHT_PROPERTY => $builder->withHeight($content),
+                Scraper::VIDEO_PROPERTY => $builder->withUrl($content),
+                Scraper::VIDEO_SECURE_URL_PROPERTY => $builder->withSecureUrl($content),
+                Scraper::VIDEO_TYPE_PROPERTY => $builder->withType($content),
+                Scraper::VIDEO_WIDTH_PROPERTY => $builder->withWidth($content),
+                Scraper::VIDEO_HEIGHT_PROPERTY => $builder->withHeight($content),
                 default => $builder,
             };
         }

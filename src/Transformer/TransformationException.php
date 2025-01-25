@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Krasilnikovs\Opengraph\Transformer\Exception;
+namespace Krasilnikovs\Opengraph\Transformer;
 
 use RuntimeException;
 use Throwable;
