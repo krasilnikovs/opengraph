@@ -44,7 +44,7 @@ final class MusicSongPropertyExtractorTest extends TestCase
 
     public function testShouldExtractMusicians(): void
     {
-        $expected = new UrlCollection([
+        $expected = UrlCollection::fromArray([
             Url::fromString('https://lv.wikipedia.org/wiki/Raimonds_Pauls'),
         ]);
 

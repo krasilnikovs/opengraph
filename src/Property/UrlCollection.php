@@ -28,7 +28,7 @@ final class UrlCollection implements Iterator, ArrayAccess, Countable
     }
 
     /**
-     * @param array<int, Url> $urls
+     * @param array<array-key, Url> $urls
      * @return self
      */
     public static function fromArray(array $urls): self

@@ -3,7 +3,8 @@
 namespace Krasilnikovs\Opengraph\Property\Extractor;
 
 use DateTimeImmutable;
-use DateTimeInterface;
+use Krasilnikovs\Opengraph\Property\Url;
+use Krasilnikovs\Opengraph\Property\UrlCollection;
 use Krasilnikovs\Opengraph\Scraper\MetaScraperInterface;
 use Throwable;
 
@@ -11,34 +12,32 @@ final readonly class MusicAlbumPropertyExtractor
 {
     use PropertyExtractor;
 
-    public function releaseDate(): string
+    public function releaseDate(): ?DateTimeImmutable
     {
         $releaseDate = $this->scraper->getContentByName(MetaScraperInterface::MUSIC_RELEASE_DATE_PROPERTY);
 
         try {
-            return new DateTimeImmutable($releaseDate)->format(DateTimeInterface::ATOM);
+            return new DateTimeImmutable($releaseDate);
         } catch (Throwable) {
-            return '';
+            return null;
         }
     }
 
-    /**
-     * @return list<string>
-     */
-    public function musicians(): array
+    public function musicians(): UrlCollection
     {
         $musicians = $this->scraper->getContentsByName(MetaScraperInterface::MUSIC_MUSICIAN_PROPERTY);
 
-        return array_values(iterator_to_array($musicians));
+        $musicians = array_map(Url::fromString(...), iterator_to_array($musicians));
+
+        return UrlCollection::fromArray($musicians);
     }
 
-    /**
-     * @return list<string>
-     */
-    public function songs(): array
+    public function songs(): UrlCollection
     {
         $songs = $this->scraper->getContentsByName(MetaScraperInterface::MUSIC_SONG_PROPERTY);
 
-        return array_values(iterator_to_array($songs));
+        $songs = array_map(Url::fromString(...), iterator_to_array($songs));
+
+        return UrlCollection::fromArray($songs);
     }
 }

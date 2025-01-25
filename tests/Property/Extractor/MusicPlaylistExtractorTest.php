@@ -3,6 +3,8 @@
 namespace Krasilnikovs\Opengraph\Tests\Property\Extractor;
 
 use Krasilnikovs\Opengraph\Property\Extractor\MusicPlaylistPropertyExtractor;
+use Krasilnikovs\Opengraph\Property\Url;
+use Krasilnikovs\Opengraph\Property\UrlCollection;
 use Krasilnikovs\Opengraph\Scraper\MetaScraper;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
@@ -27,19 +29,19 @@ final class MusicPlaylistExtractorTest extends TestCase
 
     public function testShouldExtractCreators(): void
     {
-        $expected = [
-            'https://lv.wikipedia.org/wiki/Raimonds_Pauls',
-            'https://lv.wikipedia.org/wiki/Laima_Vaikule',
-        ];
+        $expected = UrlCollection::fromArray([
+            Url::fromString('https://lv.wikipedia.org/wiki/Raimonds_Pauls'),
+            Url::fromString('https://lv.wikipedia.org/wiki/Laima_Vaikule'),
+        ]);
 
         self::assertEquals($expected, $this->extractor->creators());
     }
 
     public function testShouldExtractSongs(): void
     {
-        $expected = [
-            'https://open.spotify.com/track/3mIHMq9PRupFlTdO2HsMMy?si=aa115bc1cfd44ad7',
-        ];
+        $expected = UrlCollection::fromArray([
+            Url::fromString('https://open.spotify.com/track/3mIHMq9PRupFlTdO2HsMMy?si=aa115bc1cfd44ad7'),
+        ]);
 
         self::assertEquals($expected, $this->extractor->songs());
     }

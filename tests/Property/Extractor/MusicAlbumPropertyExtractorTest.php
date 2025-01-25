@@ -2,7 +2,10 @@
 
 namespace Krasilnikovs\Opengraph\Tests\Property\Extractor;
 
+use DateTimeImmutable;
 use Krasilnikovs\Opengraph\Property\Extractor\MusicAlbumPropertyExtractor;
+use Krasilnikovs\Opengraph\Property\Url;
+use Krasilnikovs\Opengraph\Property\UrlCollection;
 use Krasilnikovs\Opengraph\Scraper\MetaScraper;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
@@ -28,14 +31,16 @@ final class MusicAlbumPropertyExtractorTest extends TestCase
 
     public function testShouldExtractReleaseDate(): void
     {
-        $expected = '2014-11-24T00:00:00+00:00';
+        $expected = new DateTimeImmutable('2014-11-24T00:00:00+00:00');
 
         self::assertEquals($expected, $this->extractor->releaseDate());
     }
 
     public function testShouldExtractMusicians(): void
     {
-        $expected = ['https://lv.wikipedia.org/wiki/Raimonds_Pauls'];
+        $expected = UrlCollection::fromArray([
+            Url::fromString('https://lv.wikipedia.org/wiki/Raimonds_Pauls'),
+        ]);
 
         self::assertEquals($expected, $this->extractor->musicians());
     }
@@ -43,10 +48,10 @@ final class MusicAlbumPropertyExtractorTest extends TestCase
 
     public function testShouldExtractSongs(): void
     {
-        $expected = [
-            'https://open.spotify.com/track/488ppPsbOwN7T26XKuXruh?si=c44f580436ba440a',
-            'https://open.spotify.com/track/030zL05q4n5QU2TvM5IMaq?si=a0edbb80e9014c8b',
-        ];
+        $expected = UrlCollection::fromArray([
+            Url::fromString('https://open.spotify.com/track/488ppPsbOwN7T26XKuXruh?si=c44f580436ba440a'),
+            Url::fromString('https://open.spotify.com/track/030zL05q4n5QU2TvM5IMaq?si=a0edbb80e9014c8b'),
+        ]);
 
         self::assertEquals($expected, $this->extractor->songs());
     }

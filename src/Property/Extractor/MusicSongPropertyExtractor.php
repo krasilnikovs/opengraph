@@ -35,6 +35,6 @@ final readonly class MusicSongPropertyExtractor
 
         $musicians = array_map(Url::fromString(...), iterator_to_array($musicians));
 
-        return new UrlCollection($musicians);
+        return UrlCollection::fromArray($musicians);
     }
 }

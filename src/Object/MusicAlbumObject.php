@@ -2,30 +2,20 @@
 
 namespace Krasilnikovs\Opengraph\Object;
 
+use DateTimeImmutable;
 use Krasilnikovs\Opengraph\Property\AudioCollection;
 use Krasilnikovs\Opengraph\Property\Determiner;
 use Krasilnikovs\Opengraph\Property\ImageCollection;
 use Krasilnikovs\Opengraph\Property\Url;
+use Krasilnikovs\Opengraph\Property\UrlCollection;
 use Krasilnikovs\Opengraph\Property\VideoCollection;
 
 final readonly class MusicAlbumObject extends AbstractObject
 {
-    public string $releaseDate;
+    public ?DateTimeImmutable $releaseDate;
+    public UrlCollection $musicians;
+    public UrlCollection $songs;
 
-    /**
-     * @var array<array-key, string>
-     */
-    public array $musicians;
-
-    /**
-     * @var array<array-key, string>
-     */
-    public array $songs;
-
-    /**
-     * @param list<string> $musicians
-     * @param list<string> $songs
-     */
     public function __construct(
         Url $url,
         string $title,
@@ -35,9 +25,9 @@ final readonly class MusicAlbumObject extends AbstractObject
         ImageCollection $images,
         AudioCollection $audios,
         VideoCollection $videos,
-        string $releaseDate,
-        array $musicians,
-        array $songs,
+        ?DateTimeImmutable $releaseDate,
+        UrlCollection $musicians,
+        UrlCollection $songs,
     ) {
         $this->releaseDate = $releaseDate;
         $this->musicians   = $musicians;

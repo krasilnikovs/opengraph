@@ -6,18 +6,13 @@ use Krasilnikovs\Opengraph\Property\AudioCollection;
 use Krasilnikovs\Opengraph\Property\Determiner;
 use Krasilnikovs\Opengraph\Property\ImageCollection;
 use Krasilnikovs\Opengraph\Property\Url;
+use Krasilnikovs\Opengraph\Property\UrlCollection;
 use Krasilnikovs\Opengraph\Property\VideoCollection;
 
 final readonly class MusicRadioStationObject extends AbstractObject
 {
-    /**
-     * @var list<string>
-     */
-    public array $creators;
+    public UrlCollection $creators;
 
-    /**
-     * @param list<string> $creators
-     */
     public function __construct(
         Url $url,
         string $title,
@@ -27,7 +22,7 @@ final readonly class MusicRadioStationObject extends AbstractObject
         ImageCollection $images,
         AudioCollection $audios,
         VideoCollection $videos,
-        array $creators,
+        UrlCollection $creators,
     ) {
         $this->creators = $creators;
 
