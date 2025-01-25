@@ -132,6 +132,11 @@ final readonly class ImageCollectionBuilder
         return new self($elements);
     }
 
+    public function isEmpty(): bool
+    {
+        return empty($this->elements);
+    }
+
     public function build(): ImageCollection
     {
         $images = array_map(Image::fromArray(...), $this->elements);

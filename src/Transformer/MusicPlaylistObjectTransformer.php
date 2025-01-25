@@ -3,24 +3,24 @@
 namespace Krasilnikovs\Opengraph\Transformer;
 
 use Krasilnikovs\Opengraph\Object\AbstractObject;
-use Krasilnikovs\Opengraph\Object\WebsiteObject;
-use Krasilnikovs\Opengraph\Property\Extractor\WebsitePropertyExtractor;
+use Krasilnikovs\Opengraph\Object\MusicPlaylistObject;
+use Krasilnikovs\Opengraph\Property\Extractor\MusicPlaylistPropertyExtractor;
 use Krasilnikovs\Opengraph\Scraper\MetaScraperInterface;
 
-final readonly class WebsiteObjectTransformer implements ObjectTransformerInterface
+final readonly class MusicPlaylistObjectTransformer implements ObjectTransformerInterface
 {
     public function supports(MetaScraperInterface $scraper): bool
     {
-        $extractor = WebsitePropertyExtractor::fromMetaScraper($scraper);
+        $extractor = MusicPlaylistPropertyExtractor::fromMetaScraper($scraper);
 
-        return $extractor->type() === WebsiteObject::getType();
+        return $extractor->type() === MusicPlaylistObject::getType();
     }
 
     public function toObject(MetaScraperInterface $scraper): AbstractObject
     {
-        $extractor = WebsitePropertyExtractor::fromMetaScraper($scraper);
+        $extractor = MusicPlaylistPropertyExtractor::fromMetaScraper($scraper);
 
-        return new WebsiteObject(
+        return new MusicPlaylistObject(
             url:         $extractor->url(),
             title:       $extractor->title(),
             description: $extractor->description(),
@@ -29,8 +29,9 @@ final readonly class WebsiteObjectTransformer implements ObjectTransformerInterf
             images:      $extractor->images(),
             audios:      $extractor->audios(),
             videos:      $extractor->videos(),
+            creators:    $extractor->creators(),
+            songs:       $extractor->songs(),
         );
     }
-
 
 }

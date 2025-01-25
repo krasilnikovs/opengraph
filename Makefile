@@ -25,5 +25,4 @@ code-coverage:
 deps:
 	docker exec opengraph_app composer install
 
-example:
-	docker exec opengraph_app php ./examples/basic.php
+lint: cs-fix phpstan

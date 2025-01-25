@@ -2,23 +2,23 @@
 
 namespace Krasilnikovs\Opengraph\Tests\Transformer;
 
-use Krasilnikovs\Opengraph\Object\WebsiteObject;
+use Krasilnikovs\Opengraph\Object\MusicSongObject;
 use Krasilnikovs\Opengraph\Property\Extractor\Exception\PropertyNotExtractedException;
+use Krasilnikovs\Opengraph\Transformer\MusicSongObjectTransformer;
 use Krasilnikovs\Opengraph\Transformer\ObjectTransformerInterface;
-use Krasilnikovs\Opengraph\Transformer\WebsiteObjectTransformer;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(WebsiteObjectTransformer::class)]
-final class WebsiteObjectTransformerTest extends ObjectTransformerTestCase
+#[CoversClass(MusicSongObjectTransformer::class)]
+final class MusicSongObjectTransformerTest extends ObjectTransformerTestCase
 {
     protected static function getTransformer(): ObjectTransformerInterface
     {
-        return new WebsiteObjectTransformer();
+        return new MusicSongObjectTransformer();
     }
 
     protected static function getObjectClass(): string
     {
-        return WebsiteObject::class;
+        return MusicSongObject::class;
     }
 
     public static function supportsProvider(): array
@@ -26,7 +26,7 @@ final class WebsiteObjectTransformerTest extends ObjectTransformerTestCase
         return [
             'true-supports' => [
                 'content' => <<<HTML
-                        <meta property="og:type" content="website"> />
+                        <meta property="og:type" content="music.song"> />
                     HTML,
                 'expected' => true,
             ],
