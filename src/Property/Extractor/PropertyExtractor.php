@@ -18,7 +18,7 @@ use Krasilnikovs\Opengraph\Scraper\MetaScraperInterface;
 
 trait PropertyExtractor
 {
-    final private function __construct(
+    final public function __construct(
         protected readonly MetaScraperInterface $scraper,
     )
     {

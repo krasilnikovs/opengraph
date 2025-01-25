@@ -6,6 +6,7 @@ use Krasilnikovs\Opengraph\Property\Audio;
 use Krasilnikovs\Opengraph\Property\AudioCollection;
 use Krasilnikovs\Opengraph\Property\Determiner;
 use Krasilnikovs\Opengraph\Property\Extractor\Exception\PropertyNotExtractedException;
+use Krasilnikovs\Opengraph\Property\Extractor\PropertyExtractor;
 use Krasilnikovs\Opengraph\Property\Extractor\WebsitePropertyExtractor;
 use Krasilnikovs\Opengraph\Property\Image;
 use Krasilnikovs\Opengraph\Property\ImageCollection;
@@ -17,16 +18,16 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(WebsitePropertyExtractor::class)]
-final class WebsitePropertyExtractorTest extends TestCase
+#[CoversClass(PropertyExtractor::class)]
+final class PropertyExtractorTest extends TestCase
 {
     public function testShouldExtractType(): void
     {
         $content = '<meta property="og:type" content="website">';
 
-        $extractor = WebsitePropertyExtractor::fromMetaScraper(
-            MetaScraper::fromString($content)
-        );
+        $extractor = new class(MetaScraper::fromString($content)) {
+            use PropertyExtractor;
+        };
 
         $expected = 'website';
         $actual = $extractor->type();
@@ -38,9 +39,9 @@ final class WebsitePropertyExtractorTest extends TestCase
     {
         $content = '<meta property="og:url" content="https://krasilnikovs.lv">';
 
-        $extractor = WebsitePropertyExtractor::fromMetaScraper(
-            MetaScraper::fromString($content)
-        );
+        $extractor = new class(MetaScraper::fromString($content)) {
+            use PropertyExtractor;
+        };
 
         $expected = 'https://krasilnikovs.lv';
         $actual = $extractor->url();
@@ -52,9 +53,9 @@ final class WebsitePropertyExtractorTest extends TestCase
     {
         $content = '<meta property="og:title" content="Mihails Krasilnikovs">';
 
-        $extractor = WebsitePropertyExtractor::fromMetaScraper(
-            MetaScraper::fromString($content)
-        );
+        $extractor = new class(MetaScraper::fromString($content)) {
+            use PropertyExtractor;
+        };
 
         $expected = 'Mihails Krasilnikovs';
         $actual = $extractor->title();
@@ -66,9 +67,9 @@ final class WebsitePropertyExtractorTest extends TestCase
     {
         $content = '<meta property="og:description" content="Hey! I\'m Mihails Krasilnikovs, a Software Engineer from Latvia.">';
 
-        $extractor = WebsitePropertyExtractor::fromMetaScraper(
-            MetaScraper::fromString($content)
-        );
+        $extractor = new class(MetaScraper::fromString($content)) {
+            use PropertyExtractor;
+        };
 
         $expected = "Hey! I'm Mihails Krasilnikovs, a Software Engineer from Latvia.";
         $actual = $extractor->description();
@@ -80,9 +81,9 @@ final class WebsitePropertyExtractorTest extends TestCase
     {
         $content = '<meta property="og:site_name" content="Krasilnikovs">';
 
-        $extractor = WebsitePropertyExtractor::fromMetaScraper(
-            MetaScraper::fromString($content)
-        );
+        $extractor = new class(MetaScraper::fromString($content)) {
+            use PropertyExtractor;
+        };
 
         $expected ='Krasilnikovs';
         $actual = $extractor->siteName();
@@ -93,9 +94,9 @@ final class WebsitePropertyExtractorTest extends TestCase
     #[DataProvider('shouldExtractDeterminerProvider')]
     public function testShouldExtractDeterminer(string $content, Determiner $expected): void
     {
-        $extractor = WebsitePropertyExtractor::fromMetaScraper(
-            MetaScraper::fromString($content)
-        );
+        $extractor = new class(MetaScraper::fromString($content)) {
+            use PropertyExtractor;
+        };
 
         $actual = $extractor->determiner();
 
@@ -105,9 +106,9 @@ final class WebsitePropertyExtractorTest extends TestCase
     #[DataProvider('shouldExtractLocaleProvider')]
     public function testShouldExtractLocale(string $content, Locale $expected): void
     {
-        $extractor = WebsitePropertyExtractor::fromMetaScraper(
-            MetaScraper::fromString($content)
-        );
+        $extractor = new class(MetaScraper::fromString($content)) {
+            use PropertyExtractor;
+        };
 
         $actual = $extractor->locale();
 
@@ -117,9 +118,9 @@ final class WebsitePropertyExtractorTest extends TestCase
     #[DataProvider('shouldExtractImagesProvider')]
     public function testShouldExtractImages(string $content, ImageCollection $expected): void
     {
-        $extractor = WebsitePropertyExtractor::fromMetaScraper(
-            MetaScraper::fromString($content)
-        );
+        $extractor = new class(MetaScraper::fromString($content)) {
+            use PropertyExtractor;
+        };
 
         $actual = $extractor->images();
 
@@ -141,9 +142,9 @@ final class WebsitePropertyExtractorTest extends TestCase
     #[DataProvider('shouldExtractAudiosProvider')]
     public function testShouldExtractAudios(string $content, AudioCollection $expected): void
     {
-        $extractor = WebsitePropertyExtractor::fromMetaScraper(
-            MetaScraper::fromString($content)
-        );
+        $extractor = new class(MetaScraper::fromString($content)) {
+            use PropertyExtractor;
+        };
 
         $actual = $extractor->audios();
 
@@ -153,9 +154,9 @@ final class WebsitePropertyExtractorTest extends TestCase
     #[DataProvider('shouldExtractVideosProvider')]
     public function testShouldExtractVideos(string $content, VideoCollection $expected): void
     {
-        $extractor = WebsitePropertyExtractor::fromMetaScraper(
-            MetaScraper::fromString($content)
-        );
+        $extractor = new class(MetaScraper::fromString($content)) {
+            use PropertyExtractor;
+        };
 
         $actual = $extractor->videos();
 

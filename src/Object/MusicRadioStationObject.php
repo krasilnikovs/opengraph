@@ -14,6 +14,9 @@ final readonly class MusicRadioStationObject extends AbstractObject
      */
     public array $creators;
 
+    /**
+     * @param list<string> $creators
+     */
     public function __construct(
         string $url,
         string $title,
