@@ -2,7 +2,10 @@
 
 namespace Krasilnikovs\Opengraph\Property\Extractor;
 
+use Krasilnikovs\Opengraph\Property\Url;
+use Krasilnikovs\Opengraph\Property\UrlCollection;
 use Krasilnikovs\Opengraph\Scraper\MetaScraperInterface;
+use function array_map;
 
 final readonly class MusicSongPropertyExtractor
 {
@@ -19,18 +22,19 @@ final readonly class MusicSongPropertyExtractor
         return (int) $duration;
     }
 
-    public function album(): string
+    public function album(): Url
     {
-        return $this->scraper->getContentByName(MetaScraperInterface::MUSIC_ALBUM_PROPERTY);
+        $url = $this->scraper->getContentByName(MetaScraperInterface::MUSIC_ALBUM_PROPERTY);
+
+        return Url::fromString($url);
     }
 
-    /**
-     * @return list<string>
-     */
-    public function musicians(): array
+    public function musicians(): UrlCollection
     {
         $musicians = $this->scraper->getContentsByName(MetaScraperInterface::MUSIC_MUSICIAN_PROPERTY);
 
-        return array_values(iterator_to_array($musicians));
+        $musicians = array_map(Url::fromString(...), iterator_to_array($musicians));
+
+        return new UrlCollection($musicians);
     }
 }
