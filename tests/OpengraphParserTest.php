@@ -7,6 +7,7 @@ use Krasilnikovs\Opengraph\OpengraphParser;
 use Krasilnikovs\Opengraph\Property\AudioCollection;
 use Krasilnikovs\Opengraph\Property\Determiner;
 use Krasilnikovs\Opengraph\Property\ImageCollection;
+use Krasilnikovs\Opengraph\Property\Url;
 use Krasilnikovs\Opengraph\Property\VideoCollection;
 use Krasilnikovs\Opengraph\Scraper\MetaScraperInterface;
 use Krasilnikovs\Opengraph\Transformer\ObjectTransformerInterface;
@@ -60,14 +61,14 @@ final class OpengraphParserTest extends TestCase
                     public function __construct()
                     {
                         parent::__construct(
-                            url: 'https://krasilnikovs.lv',
-                            title: 'Home Page',
+                            url:         Url::fromString('https://krasilnikovs.lv'),
+                            title:       'Home Page',
                             description: 'Krasilnikovs Home Page',
-                            siteName: 'Krasilnikovs',
-                            determiner: Determiner::A,
-                            images: new ImageCollection([]),
-                            audios: new AudioCollection([]),
-                            videos: new VideoCollection([]),
+                            siteName:    'Krasilnikovs',
+                            determiner:  Determiner::A,
+                            images:      new ImageCollection([]),
+                            audios:      new AudioCollection([]),
+                            videos:      new VideoCollection([]),
                         );
                     }
 
@@ -95,14 +96,14 @@ final class OpengraphParserTest extends TestCase
                     public function __construct()
                     {
                         parent::__construct(
-                            url: 'https://krasilnikovs.lv',
-                            title: 'Home Page',
+                            url:         Url::fromString('https://krasilnikovs.lv'),
+                            title:       'Home Page',
                             description: 'Krasilnikovs Home Page',
-                            siteName: 'Krasilnikovs',
-                            determiner: Determiner::A,
-                            images: new ImageCollection([]),
-                            audios: new AudioCollection([]),
-                            videos: new VideoCollection([]),
+                            siteName:    'Krasilnikovs',
+                            determiner:   Determiner::A,
+                            images:       new ImageCollection([]),
+                            audios:       new AudioCollection([]),
+                            videos:       new VideoCollection([]),
                         );
                     }
 

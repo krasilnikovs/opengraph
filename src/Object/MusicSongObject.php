@@ -5,6 +5,7 @@ namespace Krasilnikovs\Opengraph\Object;
 use Krasilnikovs\Opengraph\Property\AudioCollection;
 use Krasilnikovs\Opengraph\Property\Determiner;
 use Krasilnikovs\Opengraph\Property\ImageCollection;
+use Krasilnikovs\Opengraph\Property\Url;
 use Krasilnikovs\Opengraph\Property\VideoCollection;
 
 final readonly class MusicSongObject extends AbstractObject
@@ -21,7 +22,7 @@ final readonly class MusicSongObject extends AbstractObject
      * @param list<string> $musicians
      */
     public function __construct(
-        string $url,
+        Url $url,
         string $title,
         string $description,
         string $siteName,

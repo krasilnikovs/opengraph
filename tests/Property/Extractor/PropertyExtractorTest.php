@@ -11,6 +11,7 @@ use Krasilnikovs\Opengraph\Property\Extractor\WebsitePropertyExtractor;
 use Krasilnikovs\Opengraph\Property\Image;
 use Krasilnikovs\Opengraph\Property\ImageCollection;
 use Krasilnikovs\Opengraph\Property\Locale;
+use Krasilnikovs\Opengraph\Property\Url;
 use Krasilnikovs\Opengraph\Property\Video;
 use Krasilnikovs\Opengraph\Property\VideoCollection;
 use Krasilnikovs\Opengraph\Scraper\MetaScraper;
@@ -43,7 +44,7 @@ final class PropertyExtractorTest extends TestCase
             use PropertyExtractor;
         };
 
-        $expected = 'https://krasilnikovs.lv';
+        $expected = Url::fromString('https://krasilnikovs.lv');
         $actual = $extractor->url();
 
         self::assertEquals($expected, $actual);

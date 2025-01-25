@@ -12,6 +12,7 @@ use Krasilnikovs\Opengraph\Property\Extractor\Exception\PropertyNotExtractedExce
 use Krasilnikovs\Opengraph\Property\Image;
 use Krasilnikovs\Opengraph\Property\ImageCollection;
 use Krasilnikovs\Opengraph\Property\Locale;
+use Krasilnikovs\Opengraph\Property\Url;
 use Krasilnikovs\Opengraph\Property\Video;
 use Krasilnikovs\Opengraph\Property\VideoCollection;
 use Krasilnikovs\Opengraph\Scraper\MetaScraperInterface;
@@ -37,7 +38,7 @@ trait PropertyExtractor
     /**
      * @throws PropertyNotExtractedException
      */
-    final public function url(): string
+    final public function url(): Url
     {
         $url = $this->scraper->getContentByName(MetaScraperInterface::URL_PROPERTY);
 
@@ -45,7 +46,7 @@ trait PropertyExtractor
             throw PropertyNotExtractedException::requiredNotEmptyValueForProperty(MetaScraperInterface::URL_PROPERTY);
         }
 
-        return $url;
+        return Url::fromString($url);
     }
 
     /**
