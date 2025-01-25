@@ -2,7 +2,7 @@
 
 namespace Krasilnikovs\Opengraph\Tests\Transformer;
 
-use Krasilnikovs\Opengraph\Extractor\Exception\PropertyNotExtractedException;
+use Krasilnikovs\Opengraph\Extractor\PropertyNotExtractedException;
 use Krasilnikovs\Opengraph\Object\MusicAlbumObject;
 use Krasilnikovs\Opengraph\Transformer\MusicAlbumObjectTransformer;
 use Krasilnikovs\Opengraph\Transformer\ObjectTransformerInterface;

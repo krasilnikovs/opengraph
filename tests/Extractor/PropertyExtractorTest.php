@@ -2,8 +2,8 @@
 
 namespace Krasilnikovs\Opengraph\Tests\Extractor;
 
-use Krasilnikovs\Opengraph\Extractor\Exception\PropertyNotExtractedException;
 use Krasilnikovs\Opengraph\Extractor\PropertyExtractor;
+use Krasilnikovs\Opengraph\Extractor\PropertyNotExtractedException;
 use Krasilnikovs\Opengraph\Extractor\WebsitePropertyExtractor;
 use Krasilnikovs\Opengraph\Property\Audio;
 use Krasilnikovs\Opengraph\Property\AudioCollection;

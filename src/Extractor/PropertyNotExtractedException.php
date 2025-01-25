@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Krasilnikovs\Opengraph\Extractor\Exception;
+namespace Krasilnikovs\Opengraph\Extractor;
 
 use RuntimeException;
 

@@ -2,7 +2,7 @@
 
 namespace Krasilnikovs\Opengraph\Tests\Transformer;
 
-use Krasilnikovs\Opengraph\Extractor\Exception\PropertyNotExtractedException;
+use Krasilnikovs\Opengraph\Extractor\PropertyNotExtractedException;
 use Krasilnikovs\Opengraph\Object\WebsiteObject;
 use Krasilnikovs\Opengraph\Transformer\ObjectTransformerInterface;
 use Krasilnikovs\Opengraph\Transformer\WebsiteObjectTransformer;

@@ -4,8 +4,8 @@ namespace Krasilnikovs\Opengraph\Tests\Transformer;
 
 use Krasilnikovs\Opengraph\Object\WebsiteObject;
 use Krasilnikovs\Opengraph\Transformer\ChainObjectTransformer;
-use Krasilnikovs\Opengraph\Transformer\Exception\TransformationException;
 use Krasilnikovs\Opengraph\Transformer\ObjectTransformerInterface;
+use Krasilnikovs\Opengraph\Transformer\TransformationException;
 use PHPUnit\Framework\Attributes\CoversClass;
 
 #[CoversClass(ChainObjectTransformer::class)]

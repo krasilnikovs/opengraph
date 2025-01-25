@@ -6,7 +6,6 @@ namespace Krasilnikovs\Opengraph\Transformer;
 
 use Krasilnikovs\Opengraph\Object\AbstractObject;
 use Krasilnikovs\Opengraph\Scraper;
-use Krasilnikovs\Opengraph\Transformer\Exception\TransformationException;
 
 interface ObjectTransformerInterface
 {
