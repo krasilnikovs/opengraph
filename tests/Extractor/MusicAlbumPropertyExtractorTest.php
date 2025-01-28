@@ -4,9 +4,9 @@ namespace Krasilnikovs\Opengraph\Tests\Extractor;
 
 use DateTimeImmutable;
 use Krasilnikovs\Opengraph\Extractor\MusicAlbumPropertyExtractor;
+use Krasilnikovs\Opengraph\OpengraphScraper;
 use Krasilnikovs\Opengraph\Property\Url;
 use Krasilnikovs\Opengraph\Property\UrlCollection;
-use Krasilnikovs\Opengraph\Scraper;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -25,7 +25,7 @@ final class MusicAlbumPropertyExtractorTest extends TestCase
             HTML;
 
         $this->extractor = MusicAlbumPropertyExtractor::fromMetaScraper(
-            Scraper::fromString($html)
+            OpengraphScraper::fromString($html)
         );
     }
 

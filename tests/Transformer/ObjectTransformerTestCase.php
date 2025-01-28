@@ -2,7 +2,7 @@
 
 namespace Krasilnikovs\Opengraph\Tests\Transformer;
 
-use Krasilnikovs\Opengraph\Scraper;
+use Krasilnikovs\Opengraph\OpengraphScraper;
 use Krasilnikovs\Opengraph\Transformer\ObjectTransformerInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
@@ -20,7 +20,7 @@ abstract class ObjectTransformerTestCase extends TestCase
     #[DataProvider('supportsProvider')]
     final public function testSupports(string $content, bool $expected): void
     {
-        $scraper = Scraper::fromString($content);
+        $scraper = OpengraphScraper::fromString($content);
 
         self::assertEquals($expected, $this->transformer->supports($scraper));
     }
@@ -39,7 +39,7 @@ abstract class ObjectTransformerTestCase extends TestCase
             HTML;
 
         $object = $this->transformer->toObject(
-            Scraper::fromString($content)
+            OpengraphScraper::fromString($content)
         );
 
         self::assertInstanceOf(static::getObjectClass(), $object);
@@ -59,7 +59,7 @@ abstract class ObjectTransformerTestCase extends TestCase
         $this->expectExceptionMessage($exceptionMessage);
 
         $this->transformer->toObject(
-            Scraper::fromString($content)
+            OpengraphScraper::fromString($content)
         );
     }
 

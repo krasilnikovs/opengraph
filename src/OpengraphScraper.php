@@ -7,7 +7,7 @@ use function current;
 use function iterator_to_array;
 use function sprintf;
 
-final readonly class Scraper
+final readonly class OpengraphScraper
 {
     public const string TYPE_PROPERTY = 'og:type';
     public const string URL_PROPERTY = 'og:url';

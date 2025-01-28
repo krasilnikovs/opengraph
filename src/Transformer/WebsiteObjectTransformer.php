@@ -5,18 +5,18 @@ namespace Krasilnikovs\Opengraph\Transformer;
 use Krasilnikovs\Opengraph\Extractor\WebsitePropertyExtractor;
 use Krasilnikovs\Opengraph\Object\AbstractObject;
 use Krasilnikovs\Opengraph\Object\WebsiteObject;
-use Krasilnikovs\Opengraph\Scraper;
+use Krasilnikovs\Opengraph\OpengraphScraper;
 
 final readonly class WebsiteObjectTransformer implements ObjectTransformerInterface
 {
-    public function supports(Scraper $scraper): bool
+    public function supports(OpengraphScraper $scraper): bool
     {
         $extractor = WebsitePropertyExtractor::fromMetaScraper($scraper);
 
         return $extractor->type() === WebsiteObject::getType();
     }
 
-    public function toObject(Scraper $scraper): AbstractObject
+    public function toObject(OpengraphScraper $scraper): AbstractObject
     {
         $extractor = WebsitePropertyExtractor::fromMetaScraper($scraper);
 

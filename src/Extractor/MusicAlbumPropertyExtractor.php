@@ -3,9 +3,9 @@
 namespace Krasilnikovs\Opengraph\Extractor;
 
 use DateTimeImmutable;
+use Krasilnikovs\Opengraph\OpengraphScraper;
 use Krasilnikovs\Opengraph\Property\Url;
 use Krasilnikovs\Opengraph\Property\UrlCollection;
-use Krasilnikovs\Opengraph\Scraper;
 use Throwable;
 
 final readonly class MusicAlbumPropertyExtractor
@@ -14,7 +14,7 @@ final readonly class MusicAlbumPropertyExtractor
 
     public function releaseDate(): ?DateTimeImmutable
     {
-        $releaseDate = $this->scraper->getContentByName(Scraper::MUSIC_RELEASE_DATE_PROPERTY);
+        $releaseDate = $this->scraper->getContentByName(OpengraphScraper::MUSIC_RELEASE_DATE_PROPERTY);
 
         try {
             return new DateTimeImmutable($releaseDate);
@@ -25,7 +25,7 @@ final readonly class MusicAlbumPropertyExtractor
 
     public function musicians(): UrlCollection
     {
-        $musicians = $this->scraper->getContentsByName(Scraper::MUSIC_MUSICIAN_PROPERTY);
+        $musicians = $this->scraper->getContentsByName(OpengraphScraper::MUSIC_MUSICIAN_PROPERTY);
 
         $musicians = array_map(Url::fromString(...), iterator_to_array($musicians));
 
@@ -34,7 +34,7 @@ final readonly class MusicAlbumPropertyExtractor
 
     public function songs(): UrlCollection
     {
-        $songs = $this->scraper->getContentsByName(Scraper::MUSIC_SONG_PROPERTY);
+        $songs = $this->scraper->getContentsByName(OpengraphScraper::MUSIC_SONG_PROPERTY);
 
         $songs = array_map(Url::fromString(...), iterator_to_array($songs));
 

@@ -3,9 +3,9 @@
 namespace Krasilnikovs\Opengraph\Tests\Extractor;
 
 use Krasilnikovs\Opengraph\Extractor\MusicPlaylistPropertyExtractor;
+use Krasilnikovs\Opengraph\OpengraphScraper;
 use Krasilnikovs\Opengraph\Property\Url;
 use Krasilnikovs\Opengraph\Property\UrlCollection;
-use Krasilnikovs\Opengraph\Scraper;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -23,7 +23,7 @@ final class MusicPlaylistExtractorTest extends TestCase
             HTML;
 
         $this->extractor = MusicPlaylistPropertyExtractor::fromMetaScraper(
-            Scraper::fromString($html)
+            OpengraphScraper::fromString($html)
         );
     }
 

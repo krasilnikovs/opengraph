@@ -5,18 +5,18 @@ namespace Krasilnikovs\Opengraph\Transformer;
 use Krasilnikovs\Opengraph\Extractor\MusicRadioStationExtractor;
 use Krasilnikovs\Opengraph\Object\AbstractObject;
 use Krasilnikovs\Opengraph\Object\MusicRadioStationObject;
-use Krasilnikovs\Opengraph\Scraper;
+use Krasilnikovs\Opengraph\OpengraphScraper;
 
 final readonly class MusicRadioStationObjectTransformer implements ObjectTransformerInterface
 {
-    public function supports(Scraper $scraper): bool
+    public function supports(OpengraphScraper $scraper): bool
     {
         $extractor = MusicRadioStationExtractor::fromMetaScraper($scraper);
 
         return $extractor->type() === MusicRadioStationObject::getType();
     }
 
-    public function toObject(Scraper $scraper): AbstractObject
+    public function toObject(OpengraphScraper $scraper): AbstractObject
     {
         $extractor = MusicRadioStationExtractor::fromMetaScraper($scraper);
 
