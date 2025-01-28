@@ -133,7 +133,7 @@ final class PropertyExtractorTest extends TestCase
         $this->expectException(PropertyNotExtractedException::class);
         $this->expectExceptionMessage('At least one element required for property "og:image"');
 
-        $extractor = WebsitePropertyExtractor::fromMetaScraper(
+        $extractor = WebsitePropertyExtractor::fromScraper(
             OpengraphScraper::fromString('')
         );
 

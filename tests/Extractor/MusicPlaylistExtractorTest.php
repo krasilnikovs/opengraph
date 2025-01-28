@@ -22,7 +22,7 @@ final class MusicPlaylistExtractorTest extends TestCase
                 <meta property="music:song" content="https://open.spotify.com/track/3mIHMq9PRupFlTdO2HsMMy?si=aa115bc1cfd44ad7">
             HTML;
 
-        $this->extractor = MusicPlaylistPropertyExtractor::fromMetaScraper(
+        $this->extractor = MusicPlaylistPropertyExtractor::fromScraper(
             OpengraphScraper::fromString($html)
         );
     }

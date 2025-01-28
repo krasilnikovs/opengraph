@@ -22,7 +22,7 @@ final class MusicSongPropertyExtractorTest extends TestCase
                 <meta property="music:musician" content="https://lv.wikipedia.org/wiki/Raimonds_Pauls">
             HTML;
 
-        $this->extractor = MusicSongPropertyExtractor::fromMetaScraper(
+        $this->extractor = MusicSongPropertyExtractor::fromScraper(
             OpengraphScraper::fromString($html)
         );
     }

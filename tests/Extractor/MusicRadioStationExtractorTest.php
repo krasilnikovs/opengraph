@@ -21,7 +21,7 @@ final class MusicRadioStationExtractorTest extends TestCase
                 <meta property="music:creator" content="https://lv.wikipedia.org/wiki/Laima_Vaikule">
             HTML;
 
-        $this->extractor = MusicRadioStationExtractor::fromMetaScraper(
+        $this->extractor = MusicRadioStationExtractor::fromScraper(
             OpengraphScraper::fromString($html)
         );
     }

@@ -24,7 +24,7 @@ final class MusicAlbumPropertyExtractorTest extends TestCase
                 <meta property="music:song" content="https://open.spotify.com/track/030zL05q4n5QU2TvM5IMaq?si=a0edbb80e9014c8b">
             HTML;
 
-        $this->extractor = MusicAlbumPropertyExtractor::fromMetaScraper(
+        $this->extractor = MusicAlbumPropertyExtractor::fromScraper(
             OpengraphScraper::fromString($html)
         );
     }

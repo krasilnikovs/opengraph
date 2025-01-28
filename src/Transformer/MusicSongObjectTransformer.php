@@ -11,14 +11,14 @@ final readonly class MusicSongObjectTransformer implements ObjectTransformerInte
 {
     public function supports(OpengraphScraper $scraper): bool
     {
-        $extractor = MusicSongPropertyExtractor::fromMetaScraper($scraper);
+        $extractor = MusicSongPropertyExtractor::fromScraper($scraper);
 
         return $extractor->type() === MusicSongObject::getType();
     }
 
     public function toObject(OpengraphScraper $scraper): AbstractObject
     {
-        $extractor = MusicSongPropertyExtractor::fromMetaScraper($scraper);
+        $extractor = MusicSongPropertyExtractor::fromScraper($scraper);
 
         return new MusicSongObject(
             url:         $extractor->url(),

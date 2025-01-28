@@ -11,14 +11,14 @@ final readonly class WebsiteObjectTransformer implements ObjectTransformerInterf
 {
     public function supports(OpengraphScraper $scraper): bool
     {
-        $extractor = WebsitePropertyExtractor::fromMetaScraper($scraper);
+        $extractor = WebsitePropertyExtractor::fromScraper($scraper);
 
         return $extractor->type() === WebsiteObject::getType();
     }
 
     public function toObject(OpengraphScraper $scraper): AbstractObject
     {
-        $extractor = WebsitePropertyExtractor::fromMetaScraper($scraper);
+        $extractor = WebsitePropertyExtractor::fromScraper($scraper);
 
         return new WebsiteObject(
             url:         $extractor->url(),

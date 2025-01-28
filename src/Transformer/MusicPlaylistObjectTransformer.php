@@ -11,14 +11,14 @@ final readonly class MusicPlaylistObjectTransformer implements ObjectTransformer
 {
     public function supports(OpengraphScraper $scraper): bool
     {
-        $extractor = MusicPlaylistPropertyExtractor::fromMetaScraper($scraper);
+        $extractor = MusicPlaylistPropertyExtractor::fromScraper($scraper);
 
         return $extractor->type() === MusicPlaylistObject::getType();
     }
 
     public function toObject(OpengraphScraper $scraper): AbstractObject
     {
-        $extractor = MusicPlaylistPropertyExtractor::fromMetaScraper($scraper);
+        $extractor = MusicPlaylistPropertyExtractor::fromScraper($scraper);
 
         return new MusicPlaylistObject(
             url:         $extractor->url(),

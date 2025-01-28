@@ -11,14 +11,14 @@ final readonly class MusicRadioStationObjectTransformer implements ObjectTransfo
 {
     public function supports(OpengraphScraper $scraper): bool
     {
-        $extractor = MusicRadioStationExtractor::fromMetaScraper($scraper);
+        $extractor = MusicRadioStationExtractor::fromScraper($scraper);
 
         return $extractor->type() === MusicRadioStationObject::getType();
     }
 
     public function toObject(OpengraphScraper $scraper): AbstractObject
     {
-        $extractor = MusicRadioStationExtractor::fromMetaScraper($scraper);
+        $extractor = MusicRadioStationExtractor::fromScraper($scraper);
 
         return new MusicRadioStationObject(
             url:         $extractor->url(),

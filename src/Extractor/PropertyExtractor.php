@@ -22,7 +22,7 @@ trait PropertyExtractor
         protected readonly OpengraphScraper $scraper,
     ) {}
 
-    final public static function fromMetaScraper(OpengraphScraper $scraper): static
+    final public static function fromScraper(OpengraphScraper $scraper): static
     {
         return new static($scraper);
     }
