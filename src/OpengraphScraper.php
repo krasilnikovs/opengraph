@@ -43,6 +43,10 @@ final readonly class OpengraphScraper
     public const string MUSIC_ALBUM_PROPERTY = 'music:album';
     public const string MUSIC_CREATOR_PROPERTY = 'music:creator';
 
+    public const string ARTICLE_AUTHOR_PROPERTY = 'article:author';
+    public const string ARTICLE_SECTION_PROPERTY = 'article:section';
+    public const string ARTICLE_TAG_PROPERTY = 'article:tag';
+
     private HTMLDocument $document;
 
     public function __construct(string $content)
