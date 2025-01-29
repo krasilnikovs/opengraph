@@ -3,9 +3,9 @@
 namespace Krasilnikovs\Opengraph\Tests\Extractor;
 
 use Krasilnikovs\Opengraph\Extractor\MusicSongPropertyExtractor;
+use Krasilnikovs\Opengraph\OpengraphScraper;
 use Krasilnikovs\Opengraph\Property\Url;
 use Krasilnikovs\Opengraph\Property\UrlCollection;
-use Krasilnikovs\Opengraph\Scraper;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -22,8 +22,8 @@ final class MusicSongPropertyExtractorTest extends TestCase
                 <meta property="music:musician" content="https://lv.wikipedia.org/wiki/Raimonds_Pauls">
             HTML;
 
-        $this->extractor = MusicSongPropertyExtractor::fromMetaScraper(
-            Scraper::fromString($html)
+        $this->extractor = MusicSongPropertyExtractor::fromScraper(
+            OpengraphScraper::fromString($html)
         );
     }
 

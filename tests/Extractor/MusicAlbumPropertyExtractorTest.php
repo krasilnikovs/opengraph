@@ -4,9 +4,9 @@ namespace Krasilnikovs\Opengraph\Tests\Extractor;
 
 use DateTimeImmutable;
 use Krasilnikovs\Opengraph\Extractor\MusicAlbumPropertyExtractor;
+use Krasilnikovs\Opengraph\OpengraphScraper;
 use Krasilnikovs\Opengraph\Property\Url;
 use Krasilnikovs\Opengraph\Property\UrlCollection;
-use Krasilnikovs\Opengraph\Scraper;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -24,8 +24,8 @@ final class MusicAlbumPropertyExtractorTest extends TestCase
                 <meta property="music:song" content="https://open.spotify.com/track/030zL05q4n5QU2TvM5IMaq?si=a0edbb80e9014c8b">
             HTML;
 
-        $this->extractor = MusicAlbumPropertyExtractor::fromMetaScraper(
-            Scraper::fromString($html)
+        $this->extractor = MusicAlbumPropertyExtractor::fromScraper(
+            OpengraphScraper::fromString($html)
         );
     }
 

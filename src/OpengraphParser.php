@@ -5,9 +5,10 @@ namespace Krasilnikovs\Opengraph;
 use Krasilnikovs\Opengraph\Object\AbstractObject;
 use Krasilnikovs\Opengraph\Transformer\ChainObjectTransformer;
 use Krasilnikovs\Opengraph\Transformer\ObjectTransformerInterface;
+use Krasilnikovs\Opengraph\Transformer\TransformationException;
 use Krasilnikovs\Opengraph\Transformer\WebsiteObjectTransformer;
 
-final readonly class OpengraphParser
+final readonly class OpengraphParser implements OpengraphParserInterface
 {
     private ObjectTransformerInterface $transformer;
     private ObjectTransformerInterface $fallback;
@@ -21,9 +22,12 @@ final readonly class OpengraphParser
         $this->fallback    = $fallback;
     }
 
+    /**
+     * @throws TransformationException
+     */
     public function parse(string $content): AbstractObject
     {
-        $scraper = Scraper::fromString($content);
+        $scraper = OpengraphScraper::fromString($content);
 
         if (! $this->transformer->supports($scraper)) {
             return $this->fallback->toObject($scraper);

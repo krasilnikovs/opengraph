@@ -3,7 +3,7 @@
 namespace Krasilnikovs\Opengraph\Transformer;
 
 use Krasilnikovs\Opengraph\Object\AbstractObject;
-use Krasilnikovs\Opengraph\Scraper;
+use Krasilnikovs\Opengraph\OpengraphScraper;
 use Throwable;
 use function array_any;
 use function iterator_to_array;
@@ -23,7 +23,7 @@ final readonly class ChainObjectTransformer implements ObjectTransformerInterfac
     ]) {
         $this->transformers = $transformers;
     }
-    public function supports(Scraper $scraper): bool
+    public function supports(OpengraphScraper $scraper): bool
     {
         return array_any(
             iterator_to_array($this->transformers),
@@ -31,7 +31,7 @@ final readonly class ChainObjectTransformer implements ObjectTransformerInterfac
         );
     }
 
-    public function toObject(Scraper $scraper): AbstractObject
+    public function toObject(OpengraphScraper $scraper): AbstractObject
     {
         foreach ($this->transformers as $transformer) {
             if ($transformer->supports($scraper)) {
@@ -44,7 +44,7 @@ final readonly class ChainObjectTransformer implements ObjectTransformerInterfac
         }
 
         throw TransformationException::notFoundSupportedTransformerForType(
-            $scraper->getContentByName(Scraper::TYPE_PROPERTY)
+            $scraper->getContentByName(OpengraphScraper::TYPE_PROPERTY)
         );
     }
 }

@@ -2,18 +2,18 @@
 
 namespace Krasilnikovs\Opengraph\Tests;
 
-use Krasilnikovs\Opengraph\Scraper;
+use Krasilnikovs\Opengraph\OpengraphScraper;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(Scraper::class)]
+#[CoversClass(OpengraphScraper::class)]
 final class ScraperTest extends TestCase
 {
     #[DataProvider('getContentByNameProvider')]
     public function testShouldGetContentByName(string $content, string $propertyName, string $expected): void
     {
-        $scraper = Scraper::fromString($content);
+        $scraper = OpengraphScraper::fromString($content);
 
         $actual = $scraper->getContentByName($propertyName);
 
@@ -27,7 +27,7 @@ final class ScraperTest extends TestCase
     #[DataProvider('getContentsByNameProvider')]
     public function testShouldGetContentsByName(string $content, string $propertyName, iterable $expected): void
     {
-        $scraper = Scraper::fromString($content);
+        $scraper = OpengraphScraper::fromString($content);
 
         $actual = iterator_to_array($scraper->getContentsByName($propertyName));
 
@@ -40,7 +40,7 @@ final class ScraperTest extends TestCase
     #[DataProvider('getContentsByPrefixProvider')]
     public function testShouldGetContentsByPrefix(string $content, string $propertyName, array $expected): void
     {
-        $scraper = Scraper::fromString($content);
+        $scraper = OpengraphScraper::fromString($content);
 
         $actual = $scraper->getContentsByPrefix($propertyName);
 

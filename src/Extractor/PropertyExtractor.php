@@ -2,6 +2,7 @@
 
 namespace Krasilnikovs\Opengraph\Extractor;
 
+use Krasilnikovs\Opengraph\OpengraphScraper;
 use Krasilnikovs\Opengraph\Property\Audio;
 use Krasilnikovs\Opengraph\Property\AudioCollection;
 use Krasilnikovs\Opengraph\Property\Builder\AudioCollectionBuilder;
@@ -14,24 +15,21 @@ use Krasilnikovs\Opengraph\Property\Locale;
 use Krasilnikovs\Opengraph\Property\Url;
 use Krasilnikovs\Opengraph\Property\Video;
 use Krasilnikovs\Opengraph\Property\VideoCollection;
-use Krasilnikovs\Opengraph\Scraper;
 
 trait PropertyExtractor
 {
     final public function __construct(
-        protected readonly Scraper $scraper,
-    )
-    {
-    }
+        protected readonly OpengraphScraper $scraper,
+    ) {}
 
-    final public static function fromMetaScraper(Scraper $scraper): static
+    final public static function fromScraper(OpengraphScraper $scraper): static
     {
         return new static($scraper);
     }
 
     final public function type(): string
     {
-        return $this->scraper->getContentByName(Scraper::TYPE_PROPERTY);
+        return $this->scraper->getContentByName(OpengraphScraper::TYPE_PROPERTY);
     }
 
     /**
@@ -39,10 +37,10 @@ trait PropertyExtractor
      */
     final public function url(): Url
     {
-        $url = $this->scraper->getContentByName(Scraper::URL_PROPERTY);
+        $url = $this->scraper->getContentByName(OpengraphScraper::URL_PROPERTY);
 
         if ($url === '') {
-            throw PropertyNotExtractedException::requiredNotEmptyValueForProperty(Scraper::URL_PROPERTY);
+            throw PropertyNotExtractedException::requiredNotEmptyValueForProperty(OpengraphScraper::URL_PROPERTY);
         }
 
         return Url::fromString($url);
@@ -53,10 +51,10 @@ trait PropertyExtractor
      */
     final public function title(): string
     {
-        $title = $this->scraper->getContentByName(Scraper::TITLE_PROPERTY);
+        $title = $this->scraper->getContentByName(OpengraphScraper::TITLE_PROPERTY);
 
         if ($title === '') {
-            throw PropertyNotExtractedException::requiredNotEmptyValueForProperty(Scraper::TITLE_PROPERTY);
+            throw PropertyNotExtractedException::requiredNotEmptyValueForProperty(OpengraphScraper::TITLE_PROPERTY);
         }
 
         return $title;
@@ -64,17 +62,17 @@ trait PropertyExtractor
 
     final public function description(): string
     {
-        return $this->scraper->getContentByName(Scraper::DESCRIPTION_PROPERTY);
+        return $this->scraper->getContentByName(OpengraphScraper::DESCRIPTION_PROPERTY);
     }
 
     final public function siteName(): string
     {
-        return $this->scraper->getContentByName(Scraper::SITE_NAME_PROPERTY);
+        return $this->scraper->getContentByName(OpengraphScraper::SITE_NAME_PROPERTY);
     }
 
     final public function determiner(): Determiner
     {
-        $value = $this->scraper->getContentByName(Scraper::DETERMINER_PROPERTY);
+        $value = $this->scraper->getContentByName(OpengraphScraper::DETERMINER_PROPERTY);
 
         $determiner = Determiner::tryFrom($value);
 
@@ -87,9 +85,9 @@ trait PropertyExtractor
 
     final public function locale(): Locale
     {
-        $alternates = $this->scraper->getContentsByName(Scraper::LOCALE_ALTERNATE_PROPERTY);
+        $alternates = $this->scraper->getContentsByName(OpengraphScraper::LOCALE_ALTERNATE_PROPERTY);
 
-        $locale = $this->scraper->getContentByName(Scraper::LOCALE_PROPERTY);
+        $locale = $this->scraper->getContentByName(OpengraphScraper::LOCALE_PROPERTY);
 
         if ($locale === '') {
             $locale = Locale::DEFAULT_LOCALE;
@@ -104,7 +102,7 @@ trait PropertyExtractor
      */
     final public function images(): ImageCollection
     {
-        $properties = $this->scraper->getContentsByPrefix(Scraper::IMAGE_PROPERTY);
+        $properties = $this->scraper->getContentsByPrefix(OpengraphScraper::IMAGE_PROPERTY);
 
         $builder = ImageCollectionBuilder::new();
 
@@ -114,23 +112,23 @@ trait PropertyExtractor
                 continue;
             }
 
-            if ($property === Scraper::IMAGE_PROPERTY) {
+            if ($property === OpengraphScraper::IMAGE_PROPERTY) {
                 $builder = $builder->append();
             }
 
             $builder = match ($property) {
-                Scraper::IMAGE_PROPERTY => $builder->withUrl($content),
-                Scraper::IMAGE_SECURE_URL_PROPERTY => $builder->withSecureUrl($content),
-                Scraper::IMAGE_TYPE_PROPERTY => $builder->withType($content),
-                Scraper::IMAGE_WIDTH_PROPERTY => $builder->withWidth($content),
-                Scraper::IMAGE_HEIGHT_PROPERTY => $builder->withHeight($content),
-                Scraper::IMAGE_ALT_PROPERTY => $builder->withAlt($content),
+                OpengraphScraper::IMAGE_PROPERTY => $builder->withUrl($content),
+                OpengraphScraper::IMAGE_SECURE_URL_PROPERTY => $builder->withSecureUrl($content),
+                OpengraphScraper::IMAGE_TYPE_PROPERTY => $builder->withType($content),
+                OpengraphScraper::IMAGE_WIDTH_PROPERTY => $builder->withWidth($content),
+                OpengraphScraper::IMAGE_HEIGHT_PROPERTY => $builder->withHeight($content),
+                OpengraphScraper::IMAGE_ALT_PROPERTY => $builder->withAlt($content),
                 default => $builder,
             };
         }
 
         if ($builder->isEmpty()) {
-            throw PropertyNotExtractedException::atLeastOneElementRequiredForProperty(Scraper::IMAGE_PROPERTY);
+            throw PropertyNotExtractedException::atLeastOneElementRequiredForProperty(OpengraphScraper::IMAGE_PROPERTY);
         }
 
         return $builder->build();
@@ -141,20 +139,20 @@ trait PropertyExtractor
      */
     final public function audios(): AudioCollection
     {
-        $properties = $this->scraper->getContentsByPrefix(Scraper::AUDIO_PROPERTY);
+        $properties = $this->scraper->getContentsByPrefix(OpengraphScraper::AUDIO_PROPERTY);
 
         $builder = AudioCollectionBuilder::new();
 
         foreach ($properties as [$property, $content]) {
 
-            if ($property === Scraper::AUDIO_PROPERTY) {
+            if ($property === OpengraphScraper::AUDIO_PROPERTY) {
                 $builder = $builder->append();
             }
 
             $builder = match ($property) {
-                Scraper::AUDIO_PROPERTY => $builder->withUrl($content),
-                Scraper::AUDIO_SECURE_URL_PROPERTY => $builder->withSecureUrl($content),
-                Scraper::AUDIO_TYPE_PROPERTY => $builder->withType($content),
+                OpengraphScraper::AUDIO_PROPERTY => $builder->withUrl($content),
+                OpengraphScraper::AUDIO_SECURE_URL_PROPERTY => $builder->withSecureUrl($content),
+                OpengraphScraper::AUDIO_TYPE_PROPERTY => $builder->withType($content),
                 default => $builder,
             };
         }
@@ -167,22 +165,22 @@ trait PropertyExtractor
      */
     final public function videos(): VideoCollection
     {
-        $properties = $this->scraper->getContentsByPrefix(Scraper::VIDEO_PROPERTY);
+        $properties = $this->scraper->getContentsByPrefix(OpengraphScraper::VIDEO_PROPERTY);
 
         $builder = VideoCollectionBuilder::new();
 
         foreach ($properties as [$property, $content]) {
 
-            if ($property === Scraper::VIDEO_PROPERTY) {
+            if ($property === OpengraphScraper::VIDEO_PROPERTY) {
                 $builder = $builder->append();
             }
 
             $builder = match ($property) {
-                Scraper::VIDEO_PROPERTY => $builder->withUrl($content),
-                Scraper::VIDEO_SECURE_URL_PROPERTY => $builder->withSecureUrl($content),
-                Scraper::VIDEO_TYPE_PROPERTY => $builder->withType($content),
-                Scraper::VIDEO_WIDTH_PROPERTY => $builder->withWidth($content),
-                Scraper::VIDEO_HEIGHT_PROPERTY => $builder->withHeight($content),
+                OpengraphScraper::VIDEO_PROPERTY => $builder->withUrl($content),
+                OpengraphScraper::VIDEO_SECURE_URL_PROPERTY => $builder->withSecureUrl($content),
+                OpengraphScraper::VIDEO_TYPE_PROPERTY => $builder->withType($content),
+                OpengraphScraper::VIDEO_WIDTH_PROPERTY => $builder->withWidth($content),
+                OpengraphScraper::VIDEO_HEIGHT_PROPERTY => $builder->withHeight($content),
                 default => $builder,
             };
         }

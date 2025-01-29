@@ -5,20 +5,20 @@ namespace Krasilnikovs\Opengraph\Transformer;
 use Krasilnikovs\Opengraph\Extractor\MusicSongPropertyExtractor;
 use Krasilnikovs\Opengraph\Object\AbstractObject;
 use Krasilnikovs\Opengraph\Object\MusicSongObject;
-use Krasilnikovs\Opengraph\Scraper;
+use Krasilnikovs\Opengraph\OpengraphScraper;
 
 final readonly class MusicSongObjectTransformer implements ObjectTransformerInterface
 {
-    public function supports(Scraper $scraper): bool
+    public function supports(OpengraphScraper $scraper): bool
     {
-        $extractor = MusicSongPropertyExtractor::fromMetaScraper($scraper);
+        $extractor = MusicSongPropertyExtractor::fromScraper($scraper);
 
         return $extractor->type() === MusicSongObject::getType();
     }
 
-    public function toObject(Scraper $scraper): AbstractObject
+    public function toObject(OpengraphScraper $scraper): AbstractObject
     {
-        $extractor = MusicSongPropertyExtractor::fromMetaScraper($scraper);
+        $extractor = MusicSongPropertyExtractor::fromScraper($scraper);
 
         return new MusicSongObject(
             url:         $extractor->url(),
