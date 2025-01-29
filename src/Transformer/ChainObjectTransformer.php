@@ -25,6 +25,7 @@ final readonly class ChainObjectTransformer implements ObjectTransformerInterfac
         new MusicPlaylistObjectTransformer(),
         new MusicRadioStationObjectTransformer(),
         new MusicSongObjectTransformer(),
+        new BookObjectTransformer(),
     ]) {
         $this->transformers = $transformers;
     }
