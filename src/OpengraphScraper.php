@@ -52,6 +52,10 @@ final readonly class OpengraphScraper
     public const string BOOK_RELEASE_DATE_PROPERTY = 'book:release_date';
     public const string BOOK_TAG_PROPERTY = 'book:tag';
 
+    public const string PROFILE_FIRST_NAME_PROPERTY = 'profile:first_name';
+    public const string PROFILE_LAST_NAME_PROPERTY = 'profile:last_name';
+    public const string PROFILE_USERNAME_PROPERTY = 'profile:username';
+    public const string PROFILE_GENDER_PROPERTY = 'profile:gender';
 
     private HTMLDocument $document;
 
