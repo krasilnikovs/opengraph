@@ -4,11 +4,11 @@ namespace Krasilnikovs\Opengraph\Property;
 
 final readonly class Audio
 {
-    public string $url;
-    public string $secureUrl;
+    public Url $url;
+    public Url $secureUrl;
     public string $type;
 
-    private function __construct(string $url, string $secureUrl, string $type)
+    private function __construct(Url $url, Url $secureUrl, string $type)
     {
         $this->url = $url;
         $this->secureUrl = $secureUrl;
@@ -18,8 +18,8 @@ final readonly class Audio
     public static function new(string $url, string $secureUrl, string $type): self
     {
         return new self(
-            $url,
-            $secureUrl,
+            Url::fromString($url),
+            Url::fromString($secureUrl),
             $type
         );
     }

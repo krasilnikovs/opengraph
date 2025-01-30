@@ -8,6 +8,10 @@ use Krasilnikovs\Opengraph\Property\ImageCollection;
 use Krasilnikovs\Opengraph\Property\Url;
 use Krasilnikovs\Opengraph\Property\VideoCollection;
 
+/**
+ * @link https://ogp.me/#metadata
+ * @link https://ogp.me/#optional
+ */
 abstract readonly class AbstractObject
 {
     public string          $type;

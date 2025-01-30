@@ -9,6 +9,9 @@ use Krasilnikovs\Opengraph\Property\Url;
 use Krasilnikovs\Opengraph\Property\UrlCollection;
 use Krasilnikovs\Opengraph\Property\VideoCollection;
 
+/**
+ * @link https://ogp.me/#type_music.song
+ */
 final readonly class MusicSongObject extends AbstractObject
 {
     public int           $duration;
