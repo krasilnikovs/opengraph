@@ -241,8 +241,8 @@ final class PropertyExtractorTest extends TestCase
                     HTML,
                 'expected' => new ImageCollection([
                     Image::new(
-                        url: 'https://krasilnikovs.lv/static/me.webp',
-                        secureUrl: 'https://krasilnikovs.lv/static/me_secure.webp',
+                        url: Url::fromString('https://krasilnikovs.lv/static/me.webp'),
+                        secureUrl: Url::fromString('https://krasilnikovs.lv/static/me_secure.webp'),
                         type: 'image/webp',
                         width: '128',
                         height: '128',
@@ -298,8 +298,8 @@ final class PropertyExtractorTest extends TestCase
                     HTML,
                 'expected' => new VideoCollection([
                     Video::new(
-                        url: 'https://krasilnikovs.lv/static/me.mp4',
-                        secureUrl: 'https://krasilnikovs.lv/static/me_secure.mp4',
+                        url: Url::fromString('https://krasilnikovs.lv/static/me.mp4'),
+                        secureUrl: Url::fromString('https://krasilnikovs.lv/static/me_secure.mp4'),
                         type: 'image/mp4',
                         width: '128',
                         height: '128',

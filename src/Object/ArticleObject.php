@@ -9,6 +9,9 @@ use Krasilnikovs\Opengraph\Property\TagCollection;
 use Krasilnikovs\Opengraph\Property\Url;
 use Krasilnikovs\Opengraph\Property\VideoCollection;
 
+/**
+ * @link https://ogp.me/#type_article
+ */
 final readonly class ArticleObject extends AbstractObject
 {
     public TagCollection $tags;
@@ -34,7 +37,6 @@ final readonly class ArticleObject extends AbstractObject
 
         parent::__construct($url, $title, $description, $siteName, $determiner, $images, $audios, $videos);
     }
-
 
     public static function getType(): string
     {

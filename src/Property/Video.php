@@ -4,15 +4,15 @@ namespace Krasilnikovs\Opengraph\Property;
 
 final readonly class Video
 {
-    public string $url;
-    public string $secureUrl;
+    public Url $url;
+    public Url $secureUrl;
     public string $type;
     public string $width;
     public string $height;
 
     private function __construct(
-        string $url,
-        string $secureUrl,
+        Url $url,
+        Url $secureUrl,
         string $type,
         string $width,
         string $height,
@@ -25,8 +25,8 @@ final readonly class Video
     }
 
     public static function new(
-        string $url,
-        string $secureUrl,
+        Url $url,
+        Url $secureUrl,
         string $type,
         string $width,
         string $height,
@@ -47,8 +47,8 @@ final readonly class Video
     public static function fromArray(array $map): self
     {
         return self::new(
-            url:       $map['url'] ?? '',
-            secureUrl: $map['secureUrl'] ?? '',
+            url:       Url::fromString($map['url'] ?? ''),
+            secureUrl: Url::fromString($map['secureUrl'] ?? ''),
             type:      $map['type'] ?? '',
             width:     $map['width'] ?? '',
             height:    $map['height'] ?? '',

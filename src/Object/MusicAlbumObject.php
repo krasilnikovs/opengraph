@@ -10,6 +10,9 @@ use Krasilnikovs\Opengraph\Property\Url;
 use Krasilnikovs\Opengraph\Property\UrlCollection;
 use Krasilnikovs\Opengraph\Property\VideoCollection;
 
+/**
+ * @link https://ogp.me/#type_music.album
+ */
 final readonly class MusicAlbumObject extends AbstractObject
 {
     public ?DateTimeImmutable $releaseDate;
@@ -35,6 +38,7 @@ final readonly class MusicAlbumObject extends AbstractObject
 
         parent::__construct($url, $title, $description, $siteName, $determiner, $images, $audios, $videos);
     }
+
     public static function getType(): string
     {
         return 'music.album';
