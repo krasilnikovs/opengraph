@@ -35,7 +35,6 @@ final readonly class ArticleObject extends AbstractObject
         parent::__construct($url, $title, $description, $siteName, $determiner, $images, $audios, $videos);
     }
 
-
     public static function getType(): string
     {
         return 'article';
