@@ -20,6 +20,13 @@ final readonly class ChainObjectTransformer implements ObjectTransformerInterfac
      */
     public function __construct(iterable $transformers = [
         new WebsiteObjectTransformer(),
+        new ArticleObjectTransformer(),
+        new MusicAlbumObjectTransformer(),
+        new MusicPlaylistObjectTransformer(),
+        new MusicRadioStationObjectTransformer(),
+        new MusicSongObjectTransformer(),
+        new BookObjectTransformer(),
+        new ProfileObjectTransformer(),
     ]) {
         $this->transformers = $transformers;
     }

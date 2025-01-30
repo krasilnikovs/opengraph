@@ -8,7 +8,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(OpengraphScraper::class)]
-final class ScraperTest extends TestCase
+final class OpengraphScraperTest extends TestCase
 {
     #[DataProvider('getContentByNameProvider')]
     public function testShouldGetContentByName(string $content, string $propertyName, string $expected): void
